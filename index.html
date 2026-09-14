@@ -25,9 +25,9 @@
   <meta name="ICBM" content="-23.5539, -46.6577">
 
   <!-- Favicons & Ícones do Aplicativo (PWA) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="64x64" href="assets/img/icons/favicon-64.png">
-  <link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="img/icons/favicon-64.png">
+  <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
   <meta name="theme-color" content="#17130F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -39,8 +39,8 @@
   <meta property="og:title" content="Bendito Burger — Hamburgueria Artesanal na Chapa">
   <meta property="og:description" content="Smash na chapa, pão brioche tostado na manteiga, combos com batata e refri. Monte o seu pedido online com entrega rápida em SP!">
   <meta property="og:url" content="https://SEU-DOMINIO.com.br/">
-  <meta property="og:image" content="https://SEU-DOMINIO.com.br/assets/img/og/og.jpg">
-  <meta property="og:image:secure_url" content="https://SEU-DOMINIO.com.br/assets/img/og/og.jpg">
+  <meta property="og:image" content="https://SEU-DOMINIO.com.br/img/og/og.jpg">
+  <meta property="og:image:secure_url" content="https://SEU-DOMINIO.com.br/img/og/og.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -51,7 +51,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bendito Burger — Hamburgueria Artesanal na Chapa">
   <meta name="twitter:description" content="Smash burgers suculentos, combos com batata crocante e refrigerante gelado. Peça online agora!">
-  <meta name="twitter:image" content="https://SEU-DOMINIO.com.br/assets/img/og/og.jpg">
+  <meta name="twitter:image" content="https://SEU-DOMINIO.com.br/img/og/og.jpg">
   <meta name="twitter:image:alt" content="Bendito Burger cardápio artesanal">
 
   <!-- Google Fonts Pré-conectadas -->
@@ -60,9 +60,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- CSS Modularizado e Mobile-First -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Metadados de SEO & Schema.org JSON-LD -->
+  <link rel="alternate" type="application/ld+json" href="seo/schema-restaurant.json">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="seo/sitemap.xml">
 
   <!-- Schema.org JSON-LD Estruturado (FastFoodRestaurant & Menu) -->
   <script type="application/ld+json">
@@ -74,8 +78,8 @@
     "description": "Hamburgueria artesanal na chapa em São Paulo. Smash burgers, pão brioche macio, combos com batata e refri, milkshake e muito sabor.",
     "servesCuisine": ["Hambúrguer", "Hambúrguer Artesanal", "Smash Burger", "Fast Food"],
     "priceRange": "$$",
-    "image": "https://SEU-DOMINIO.com.br/assets/img/og/og.jpg",
-    "logo": "https://SEU-DOMINIO.com.br/assets/img/icons/icon-512.png",
+    "image": "https://SEU-DOMINIO.com.br/img/og/og.jpg",
+    "logo": "https://SEU-DOMINIO.com.br/img/icons/icon-512.png",
     "url": "https://SEU-DOMINIO.com.br/",
     "telephone": "+5511999999999",
     "address": {
@@ -150,19 +154,19 @@
   </script>
 
   <!-- Scripts com carregamento seguro e não bloqueante -->
-  <script defer src="assets/js/security.js"></script>
-  <script defer src="assets/js/main.js"></script>
+  <script defer src="js/security.js"></script>
+  <script defer src="js/main.js"></script>
 </head>
 <body>
 
   <!-- Topo Hero & Identidade Visual -->
   <header class="hero">
     <div class="hero-bg" aria-hidden="true">
-      <img src="assets/img/hero-chapa.webp" alt="" width="1920" height="600" fetchpriority="high">
+      <img src="img/hero-chapa.webp" alt="" width="1920" height="600" fetchpriority="high">
     </div>
     <div class="hero-in">
       <div class="brand">
-        <img class="logo" src="assets/img/icons/apple-touch-icon.png" alt="Logotipo Bendito Burger" width="62" height="62">
+        <img class="logo" src="img/icons/apple-touch-icon.png" alt="Logotipo Bendito Burger" width="62" height="62">
         <div>
           <h1>Bendito <b>Burger</b></h1>
           <div class="tg">Hamburgueria artesanal · na chapa</div>

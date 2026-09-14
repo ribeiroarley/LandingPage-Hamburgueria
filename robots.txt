@@ -1,8 +1,0 @@
-# robots.txt para Bendito Burger
-User-agent: *
-Allow: /
-Allow: /assets/css/
-Allow: /assets/js/
-Allow: /assets/img/
-
-Sitemap: https://SEU-DOMINIO.com.br/sitemap.xml

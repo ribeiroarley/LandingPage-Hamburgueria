@@ -13,8 +13,8 @@
     "Comida Americana"
   ],
   "priceRange": "$$",
-  "image": "https://SEU-DOMINIO.com.br/assets/img/og/og.jpg",
-  "logo": "https://SEU-DOMINIO.com.br/assets/img/icons/icon-512.png",
+  "image": "https://SEU-DOMINIO.com.br/img/og/og.jpg",
+  "logo": "https://SEU-DOMINIO.com.br/img/icons/icon-512.png",
   "url": "https://SEU-DOMINIO.com.br/",
   "telephone": "+5511999999999",
   "address": {
@@ -61,7 +61,7 @@
             "@type": "MenuItem",
             "name": "Clássico",
             "description": "Blend bovino 160g, queijo, alface, tomate, cebola e molho da casa no pão brioche",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/burger-classico.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/burger-classico.webp",
             "offers": {
               "@type": "Offer",
               "price": "28.00",
@@ -72,7 +72,7 @@
             "@type": "MenuItem",
             "name": "Cheddar Bacon",
             "description": "Blend 160g, cheddar derretido, bacon crocante e cebola no pão brioche",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/burger-cheddar-bacon.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/burger-cheddar-bacon.webp",
             "offers": {
               "@type": "Offer",
               "price": "34.00",
@@ -83,7 +83,7 @@
             "@type": "MenuItem",
             "name": "Duplo Smash",
             "description": "Dois discos smash, queijo duplo, picles e molho especial",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/burger-duplo-smash.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/burger-duplo-smash.webp",
             "offers": {
               "@type": "Offer",
               "price": "39.00",
@@ -94,7 +94,7 @@
             "@type": "MenuItem",
             "name": "Frango Crocante",
             "description": "Filé de frango empanado crocante, alface, tomate e maionese temperada",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/burger-frango.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/burger-frango.webp",
             "offers": {
               "@type": "Offer",
               "price": "32.00",
@@ -105,7 +105,7 @@
             "@type": "MenuItem",
             "name": "Veggie",
             "description": "Burger de grão-de-bico e legumes, alface, tomate e cebola roxa",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/burger-veggie.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/burger-veggie.webp",
             "offers": {
               "@type": "Offer",
               "price": "30.00",
@@ -116,7 +116,7 @@
             "@type": "MenuItem",
             "name": "Costela Barbecue",
             "description": "Costela desfiada, molho barbecue, cebola crispy e queijo prato",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/burger-costela.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/burger-costela.webp",
             "offers": {
               "@type": "Offer",
               "price": "37.00",
@@ -127,7 +127,7 @@
             "@type": "MenuItem",
             "name": "Salada",
             "description": "Blend bovino 160g, muita salada fresca, queijo e molho leve",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/burger-classico.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/burger-classico.webp",
             "offers": {
               "@type": "Offer",
               "price": "29.00",
@@ -145,7 +145,7 @@
             "@type": "MenuItem",
             "name": "Batata Frita",
             "description": "Porção crocante e sequinha",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/batata-frita.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/batata-frita.webp",
             "offers": {
               "@type": "Offer",
               "price": "15.00",
@@ -156,7 +156,7 @@
             "@type": "MenuItem",
             "name": "Batata c/ Cheddar e Bacon",
             "description": "Batata frita com cheddar cremoso e bacon crocante",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/batata-cheddar-bacon.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/batata-cheddar-bacon.webp",
             "offers": {
               "@type": "Offer",
               "price": "24.00",
@@ -167,7 +167,7 @@
             "@type": "MenuItem",
             "name": "Onion Rings",
             "description": "Anéis de cebola empanados e dourados",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/onion-rings.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/onion-rings.webp",
             "offers": {
               "@type": "Offer",
               "price": "18.00",
@@ -229,7 +229,7 @@
             "@type": "MenuItem",
             "name": "Milkshake",
             "description": "Chocolate, morango ou baunilha",
-            "image": "https://SEU-DOMINIO.com.br/assets/img/milkshake.webp",
+            "image": "https://SEU-DOMINIO.com.br/img/milkshake.webp",
             "offers": {
               "@type": "Offer",
               "price": "18.00",

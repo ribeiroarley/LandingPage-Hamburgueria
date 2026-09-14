@@ -8,46 +8,52 @@ Este documento descreve a estrutura arquitetural, os padrões de engenharia de s
 
 O projeto adota uma arquitetura **Jamstack Vanilla Modular**, priorizando:
 - **Zero Dependências Externas em Runtime:** Não utiliza frameworks pesados ou bibliotecas de terceiros (sem jQuery, React ou Bootstrap), garantindo First Contentful Paint (FCP) quase instantâneo (< 500ms).
-- **Separação Estrita de Responsabilidades (SoC):** Separação integral entre marcação estrutural (`index.html`), estilização em camadas (`assets/css/`), inteligência de negócios (`assets/js/main.js`) e camada de blindagem (`assets/js/security.js`).
+- **Separação Estrita de Responsabilidades (SoC):** Separação integral entre marcação estrutural (`index.html`), estilização em camadas (`css/`), inteligência de negócios (`js/main.js`), camada de blindagem (`js/security.js`), otimização de busca (`seo/`) e catálogo visual (`img/`).
 - **Arquitetura Reativa Leve:** Gerenciamento centralizado de estado no cliente através de objetos imutáveis/reativos com persistência via `localStorage`.
 
 ---
 
 ## 2. Divisão Modular do Código
 
-```
+```text
 LandingPage-Hamburgueria/
 ├── index.html                         # Estrutura semântica e esqueleto da aplicação
 ├── manifest.json                      # Configuração Web App / PWA
-├── robots.txt                         # Regras de rastreamento para motores de busca
-├── sitemap.xml                        # Mapa do site canônico
 ├── sw.js                              # Service Worker para cache offline e resiliência
 ├── README.md                          # Documentação executiva e guia de início
-├── assets/
-│   ├── css/
-│   │   ├── style.css                  # Camada 1: Design tokens, reset, variáveis e base
-│   │   ├── components.css             # Camada 2: Componentes atômicos e moleculares
-│   │   └── responsive.css             # Camada 3: Media queries mobile-first (480, 768, 1024, 1280px)
-│   ├── js/
-│   │   ├── main.js                    # Motor da aplicação, estado, carrinho e WhatsApp
-│   │   └── security.js                # Sanitização contra XSS, escape HTML e validações
-│   ├── img/                           # Imagens WebP otimizadas
-│   └── docs/                          # Documentação técnica e histórico
+├── css/
+│   ├── style.css                      # Camada 1: Design tokens, reset, variáveis e base
+│   ├── components.css                 # Camada 2: Componentes atômicos e moleculares
+│   └── responsive.css                 # Camada 3: Media queries mobile-first (480, 768, 1024, 1280px)
+├── js/
+│   ├── main.js                        # Motor da aplicação, estado, carrinho e WhatsApp
+│   └── security.js                    # Sanitização contra XSS, escape HTML e validações
+├── img/
+│   ├── README.md                      # Catálogo de recursos visuais, dimensões e alt texts
+│   ├── icons/                         # Favicons e ícones PWA (192, 512, apple-touch)
+│   ├── og/                            # Imagem Open Graph / Twitter Card (1200x630)
+│   └── *.webp                         # Imagens WebP compactadas em alta definição dos pratos
+├── seo/
+│   ├── robots.txt                     # Diretivas de rastreamento para bots de busca
+│   ├── sitemap.xml                    # Mapa canônico do site
+│   └── schema-restaurant.json         # Schema.org JSON-LD estruturado (FastFoodRestaurant & Menu)
+└── docs/
+    └── ARQUITETURA.md                 # Especificação técnica e padrões de engenharia
 ```
 
 ---
 
 ## 3. Detalhamento dos Módulos
 
-### 3.1. Estilização (`assets/css/`)
+### 3.1. Estilização (`css/`)
 
 1. **`style.css` (Fundação & Tokens):**
    - Reset universal moderno (`box-sizing: border-box`, margens zeradas).
-   - Design Tokens centralizados em `:root`: paleta cromática (`--marrom-900`, `--verm`, `--dourado`), tipografia (`--font-display: 'Bebas Neue'`, `--font-body: 'Montserrat'`), raios de borda e transições de curva cúbica.
+   - Design Tokens centralizados em `:root`: paleta cromática (`--marrom-900`, `--verm`, `--dourado`), tipografia (`--font-display: 'Anton'`, `--font-body: 'Inter'`), raios de borda e transições de curva cúbica.
    - Tipografia base, esquema escuro artesanal (*Dark Rustic Gourmet*) e acessibilidade focada em alto contraste.
 
 2. **`components.css` (Componentes Visuais):**
-   - **Cards de Produto:** Cards com layout de grade para desktop e alinhamento tátil.
+   - **Cards de Produto:** Cards com layout flex/grade para mobile e desktop com alinhamento tátil.
    - **Chips e Seletores:** Badges de ponto da carne, botões de adicionais e opções de combo.
    - **Estrutura Rígida de Modais em 3 Camadas:**
      * `.sheet-head`: Cabeçalho fixo com puxador tátil (`.sheet-drag`), título e botão de fechar (`#shCloseBtn`).
@@ -62,11 +68,11 @@ LandingPage-Hamburgueria/
 
 ---
 
-### 3.2. Lógica e Engenharia de Scripts (`assets/js/`)
+### 3.2. Lógica e Engenharia de Scripts (`js/`)
 
 1. **`security.js` (Módulo Defensivo):**
    - Objeto global encapsulado `Security` em IIFE estrita (`"use strict"`).
-   - **Sanitização de XSS:** `Security.sanitizeText(str)` remove tags executáveis, protocolos `javascript:` e caracteres maliciosos usando `DOMParser` sem renderização no DOM vivo.
+   - **Sanitização de XSS:** `Security.sanitizeText(str)` remove tags executáveis, protocolos `javascript:` e caracteres maliciosos sem renderização no DOM vivo.
    - **Escape HTML:** `Security.escapeHTML(str)` substitui `&`, `<`, `>`, `"`, `'` por entidades seguras.
    - **Validações Fortes:** Validação de formato para nomes, números de WhatsApp com DDD e integridade de endereço.
    - **Enforce de Links Externos:** Injeta automaticamente `rel="noopener noreferrer"` em links externos.
@@ -74,9 +80,17 @@ LandingPage-Hamburgueria/
 2. **`main.js` (Motor da Aplicação):**
    - **Configuração & Cardápio:** Objeto central `CONFIG` contendo dados da loja, cupons ativos e catálogo completo indexado em `ALL` para busca $O(1)$.
    - **Event Delegation Global:** Zero manipuladores `onclick` inline no HTML. Todo clique é delegado a nível de documento via atributos semânticos `data-action`.
-   - **ScrollSpy & Navegação Suave:** Monitoramento de interseção para destacar a categoria ativa e rolagem suave via `scrollIntoView`.
+   - **ScrollSpy & Navegação Suave:** Monitoramento de rolagem para destacar a categoria ativa e rolagem suave via `scrollIntoView`.
    - **Carrinho Reativo:** Cálculos imutáveis de `subtotal()`, `descontoCupom()`, `taxaEntrega()` e `total()`.
    - **Checkout WhatsApp:** Serialização estruturada do pedido em mensagem formatada para abertura direta via API oficial do WhatsApp (`https://api.whatsapp.com/send?...`).
+
+---
+
+### 3.3. Otimização para Motores de Busca & Dados Estruturados (`seo/`)
+
+1. **`robots.txt`:** Regras para web crawlers com liberação explícita de assets essenciais (`/css/`, `/js/`, `/img/`) e declaração do mapa do site.
+2. **`sitemap.xml`:** Definição canônica de URLs indexáveis, prioridade e data de modificação.
+3. **`schema-restaurant.json`:** Esquema semântico Schema.org (`FastFoodRestaurant` e `Menu`) completo, expondo cardápio, preços, horários de atendimento e geolocalização.
 
 ---
 
@@ -85,14 +99,7 @@ LandingPage-Hamburgueria/
 ### 4.1. Content Security Policy (CSP)
 Configurada via `<meta http-equiv="Content-Security-Policy">` no cabeçalho do `index.html`:
 ```http
-default-src 'self';
-script-src 'self';
-style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-font-src 'self' https://fonts.gstatic.com;
-img-src 'self' data:;
-manifest-src 'self';
-connect-src 'self';
-frame-ancestors 'none';
+default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self';
 ```
 - Proíbe carregamento de scripts externos não autorizados.
 - Bloqueia `eval()` e injeção arbitrária de código.
@@ -100,7 +107,7 @@ frame-ancestors 'none';
 
 ### 4.2. Blindagem Local (`file://` vs `http://`)
 Para permitir que o projeto seja testado por desenvolvedores tanto via duplo clique direto no arquivo (`file:///`) quanto em servidores HTTP (`localhost` ou produção), foram aplicadas as seguintes salvaguardas:
-1. **Injeção Dinâmica do `manifest.json`:** O link para o manifesto não reside estaticamente no `<head>` (evitando erros de CORS de origem nula em navegadores Chromium ao abrir via `file://`). É injetado apenas quando `window.location.protocol.startsWith('http')`.
+1. **Injeção Dinâmica do `manifest.json`:** O link para o manifesto é injetado via JavaScript condicional (`window.location.protocol.startsWith('http')`), prevenindo erros de CORS em navegadores Chromium ao abrir via `file://`.
 2. **Registro Seguro de Service Worker:** O registro de `sw.js` é executado estritamente sob protocolo HTTP/HTTPS, com captura silenciosa de erros via `console.debug`.
 
 ### 4.3. Prevenção de Sobreposição de Interface

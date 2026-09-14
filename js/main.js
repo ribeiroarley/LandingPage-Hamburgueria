@@ -249,7 +249,7 @@
     el.setAttribute("role", "listitem");
 
     const thumb = it.img
-      ? `<img class="thumb" loading="lazy" src="assets/img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(it.n)} — foto ilustrativa" width="104" height="104">`
+      ? `<img class="thumb" loading="lazy" src="img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(it.n)} — foto ilustrativa" width="104" height="104">`
       : "";
 
     const preco = it.burger
@@ -405,7 +405,7 @@
     if (!body) return;
 
     const imgTag = it.img
-      ? `<img class="pz-img" src="assets/img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(it.n)}" width="400" height="200">`
+      ? `<img class="pz-img" src="img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(it.n)}" width="400" height="200">`
       : "";
 
     const pontosHtml = it.carne
@@ -662,7 +662,7 @@
     const itemsHtml = cart.map(function (l) {
       const it = ALL[l.id] || { n: l.nome, catKey: "burgers" };
       const img = it.img
-        ? `<img src="assets/img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(l.nome)}" width="54" height="54">`
+        ? `<img src="img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(l.nome)}" width="54" height="54">`
         : `<div class="ni" aria-hidden="true">${EMOJI[it.catKey] || "🍔"}</div>`;
 
       return `

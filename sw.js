@@ -1,29 +1,30 @@
 // Service worker — Bendito Burger PWA Cache Shell
-const CACHE = "bendito-burger-v3";
+const CACHE = "bendito-burger-v4";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./assets/css/style.css",
-  "./assets/css/components.css",
-  "./assets/css/responsive.css",
-  "./assets/js/security.js",
-  "./assets/js/main.js",
-  "./assets/img/icons/icon-192.png",
-  "./assets/img/icons/icon-512.png",
-  "./assets/img/icons/favicon-32.png",
-  "./assets/img/icons/apple-touch-icon.png",
-  "./assets/img/hero-chapa.webp",
-  "./assets/img/burger-classico.webp",
-  "./assets/img/burger-cheddar-bacon.webp",
-  "./assets/img/burger-duplo-smash.webp",
-  "./assets/img/burger-frango.webp",
-  "./assets/img/burger-veggie.webp",
-  "./assets/img/burger-costela.webp",
-  "./assets/img/batata-frita.webp",
-  "./assets/img/batata-cheddar-bacon.webp",
-  "./assets/img/onion-rings.webp",
-  "./assets/img/milkshake.webp"
+  "./css/style.css",
+  "./css/components.css",
+  "./css/responsive.css",
+  "./js/security.js",
+  "./js/main.js",
+  "./img/icons/icon-192.png",
+  "./img/icons/icon-512.png",
+  "./img/icons/favicon-32.png",
+  "./img/icons/favicon-64.png",
+  "./img/icons/apple-touch-icon.png",
+  "./img/hero-chapa.webp",
+  "./img/burger-classico.webp",
+  "./img/burger-cheddar-bacon.webp",
+  "./img/burger-duplo-smash.webp",
+  "./img/burger-frango.webp",
+  "./img/burger-veggie.webp",
+  "./img/burger-costela.webp",
+  "./img/batata-frita.webp",
+  "./img/batata-cheddar-bacon.webp",
+  "./img/onion-rings.webp",
+  "./img/milkshake.webp"
 ];
 
 self.addEventListener("install", function (e) {
