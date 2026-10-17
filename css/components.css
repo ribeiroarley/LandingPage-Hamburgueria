@@ -852,10 +852,10 @@ body.modal-open .fab {
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 18px 24px;
+  padding: 16px 24px 130px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .sh-foot {
@@ -865,7 +865,47 @@ body.modal-open .fab {
   z-index: 10;
   background: #1C1917;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 14px 24px calc(14px + env(safe-area-inset-bottom, 0px));
+  padding: 10px 20px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+
+.sh-foot-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+}
+
+.sh-foot-tot {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  flex-shrink: 0;
+}
+
+.sh-foot-tot .lbl {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.sh-foot-tot .val {
+  font-family: var(--font-display);
+  font-size: 23px;
+  color: var(--mostarda);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.send.send-compact {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 14.5px;
+  min-height: 46px;
+  border-radius: 11px;
+  white-space: nowrap;
 }
 
 .cart-items-list {
@@ -873,10 +913,25 @@ body.modal-open .fab {
   flex-direction: column;
 }
 
+.cart-body-summary,
 .cart-foot-summary {
-  margin-bottom: 10px;
+  margin-top: 8px;
+  padding: 14px 16px;
+  background: var(--card2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
 }
 
+.cart-body-summary .sum-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.cart-body-summary .sumrow,
 .cart-foot-summary .sumrow {
   display: flex;
   justify-content: space-between;
@@ -885,11 +940,13 @@ body.modal-open .fab {
   color: var(--ink-soft);
 }
 
+.cart-body-summary .sumrow.disc,
 .cart-foot-summary .sumrow.disc {
   color: var(--alface);
   font-weight: 600;
 }
 
+.cart-body-summary .totrow,
 .cart-foot-summary .totrow {
   display: flex;
   justify-content: space-between;
@@ -899,9 +956,10 @@ body.modal-open .fab {
   border-top: 1px solid var(--line);
 }
 
+.cart-body-summary .totrow .tv,
 .cart-foot-summary .totrow .tv {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 24px;
   color: var(--mostarda);
   letter-spacing: 0.5px;
 }

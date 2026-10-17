@@ -818,6 +818,9 @@
 
       const suggestBox = document.getElementById("cartSuggestBox");
       if (suggestBox) suggestBox.innerHTML = suggestBlock();
+
+      const summaryBox = document.getElementById("cartSummaryBox");
+      if (summaryBox) summaryBox.innerHTML = cartSummaryBlock();
     } else {
       // Primeira montagem do carrinho
       body.innerHTML = `
@@ -825,6 +828,7 @@
         <div id="cartItemsBox"><div class="cart-items-list" role="list">${itemsHtml}</div></div>
         <div id="cartSuggestBox">${suggestBlock()}</div>
         <div id="cartCheckoutForm">${checkoutFormHtml()}</div>
+        <div id="cartSummaryBox">${cartSummaryBlock()}</div>
       `;
       bindCartInputs();
     }
@@ -863,7 +867,7 @@
             <input class="txt" id="fEndNum" placeholder="Ex: Casa 12 / Lote 05" value="${Security.escapeHTML(e.num)}" maxlength="20">
           </div>
         </div>
-        <div class="row2" style="margin-top:9px">
+        <div class="row2" style="margin-top:8px">
           <div>
             <label for="fEndBairro" class="field-sublabel">Bairro / Região *</label>
             <input class="txt" id="fEndBairro" placeholder="Ex: Mangueiral, São Sebastião" value="${Security.escapeHTML(e.bairro)}" maxlength="50" autocomplete="address-level2">
@@ -873,7 +877,7 @@
             <input class="txt" id="fEndComp" placeholder="Ex: Bloco B, Apt 302" value="${Security.escapeHTML(e.comp)}" maxlength="40">
           </div>
         </div>
-        <div style="margin-top:9px">
+        <div style="margin-top:8px">
           <label for="fEndRef" class="field-sublabel">Ponto de referência (opcional)</label>
           <input class="txt" id="fEndRef" placeholder="Ex: Próximo à portaria / padaria" value="${Security.escapeHTML(e.ref)}" maxlength="70">
         </div>
@@ -902,7 +906,7 @@
             💵 Dinheiro
           </button>
         </div>
-        <div id="trocoBox" style="display: ${order.pag === "Dinheiro" ? "block" : "none"}; margin-top: 10px;">
+        <div id="trocoBox" style="display: ${order.pag === "Dinheiro" ? "block" : "none"}; margin-top: 8px;">
           <label for="fTroco" class="field-sublabel">Troco para quanto? (opcional)</label>
           <input class="txt" id="fTroco" placeholder="Ex: R$ 50,00 (ou deixe em branco se não precisar)" value="${Security.escapeHTML(order.troco)}" maxlength="30">
         </div>
@@ -932,16 +936,12 @@
     `;
   }
 
-  function renderCartFoot() {
-    const foot = document.getElementById("shFoot");
-    if (!foot) return;
-
-    const s = statusLoja();
+  function cartSummaryBlock() {
     const cartDiscount = descontoCupom();
     const hasDiscount = Boolean(cartDiscount && cartDiscount > 0);
-
-    foot.innerHTML = `
-      <div class="cart-foot-summary" aria-label="Resumo de valores">
+    return `
+      <div class="cart-body-summary" aria-label="Resumo de valores">
+        <div class="sum-title">Resumo de valores</div>
         <div class="sumrow"><span>Subtotal</span><span>${brl(subtotal())}</span></div>
         ${hasDiscount ? `
           <div class="sumrow disc">
@@ -960,16 +960,36 @@
           </div>
         ` : ""}
         <div class="totrow">
-          <span style="font-weight:600">Total</span>
+          <span style="font-weight:600">Total do Pedido</span>
           <span class="tv">${brl(total())}</span>
         </div>
+        <div class="hint">O pagamento e a confirmação são combinados na conversa do WhatsApp.</div>
       </div>
+    `;
+  }
 
-      <button type="button" class="send" id="sendBtn" data-action="enviar-pedido">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.5.1.3.7 1.1 1.5 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.1.1.6-.1 1.1Z"/></svg>
-        ${s.aberto ? "Finalizar Pedido via WhatsApp" : "Enviar assim que abrir"}
-      </button>
-      <div class="hint">O pagamento e a confirmação são combinados na conversa do WhatsApp.</div>
+  function renderCartFoot() {
+    const foot = document.getElementById("shFoot");
+    if (!foot) return;
+
+    const summaryBox = document.getElementById("cartSummaryBox");
+    if (summaryBox) {
+      summaryBox.innerHTML = cartSummaryBlock();
+    }
+
+    const s = statusLoja();
+
+    foot.innerHTML = `
+      <div class="sh-foot-bar">
+        <div class="sh-foot-tot">
+          <span class="lbl">Total</span>
+          <strong class="val">${brl(total())}</strong>
+        </div>
+        <button type="button" class="send send-compact" id="sendBtn" data-action="enviar-pedido">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.5.1.3.7 1.1 1.5 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.1.1.6-.1 1.1Z"/></svg>
+          <span>${s.aberto ? "Finalizar Pedido via WhatsApp" : "Enviar assim que abrir"}</span>
+        </button>
+      </div>
     `;
 
     updateSendBtn();
