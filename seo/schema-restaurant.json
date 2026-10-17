@@ -1,0 +1,288 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["FastFoodRestaurant", "Restaurant"],
+      "@id": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/#restaurant",
+      "name": "Brasa Burger",
+      "alternateName": "Brasa Burger Delivery",
+      "description": "O autêntico hambúrguer artesanal na brasa entregue quentinho na sua porta. Delivery em São Sebastião, Jardins Mangueiral, Jardim Botânico e condomínios da região. Peça pelo WhatsApp!",
+      "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/nabrasa_logo.jpeg",
+      "logo": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/nabrasa_logo.jpeg",
+      "url": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/",
+      "telephone": "+5561994024930",
+      "servesCuisine": [
+        "Burgers",
+        "Hamburgueria Artesanal",
+        "Delivery"
+      ],
+      "priceRange": "$$",
+      "hasDriveThroughService": false,
+      "acceptsReservations": false,
+      "paymentAccepted": "Cash, Credit Card, Debit Card, PIX",
+      "currenciesAccepted": "BRL",
+      "sameAs": [
+        "https://www.instagram.com/nabrasaburgerss?cplk=MTNtbjlpdHU3YXI0dA=="
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Atendimento exclusivo via Delivery",
+        "addressLocality": "São Sebastião",
+        "addressRegion": "DF",
+        "addressCountry": "BR"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "19:00",
+          "closes": "23:00"
+        }
+      ],
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "São Sebastião, Distrito Federal",
+          "containsPlace": [
+            { "@type": "Place", "name": "Bairro São José" },
+            { "@type": "Place", "name": "Bairro São Francisco" },
+            { "@type": "Place", "name": "Residencial Bosque" },
+            { "@type": "Place", "name": "Vila Nova" },
+            { "@type": "Place", "name": "Vila do Boa" },
+            { "@type": "Place", "name": "Morro da Cruz" },
+            { "@type": "Place", "name": "Centro" },
+            { "@type": "Place", "name": "Crixás" },
+            { "@type": "Place", "name": "Capão Comprido" }
+          ]
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Jardins Mangueiral, São Sebastião - DF",
+          "containsPlace": [
+            { "@type": "Place", "name": "Quadras QC 01 a QC 15" },
+            { "@type": "Place", "name": "Jardins dos Jacarandás" },
+            { "@type": "Place", "name": "Jardins das Paineiras" },
+            { "@type": "Place", "name": "Jardins dos Ipês" },
+            { "@type": "Place", "name": "Jardins dos Flamboyants" },
+            { "@type": "Place", "name": "Jardins dos Bougainvilles" },
+            { "@type": "Place", "name": "Jardins das Cerejeiras" },
+            { "@type": "Place", "name": "Jardins das Orquídeas" }
+          ]
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Jardim Botânico e Condomínios, Distrito Federal",
+          "containsPlace": [
+            { "@type": "Place", "name": "Solar da Serra" },
+            { "@type": "Place", "name": "Solar de Brasília" },
+            { "@type": "Place", "name": "Jardim Botânico V" },
+            { "@type": "Place", "name": "Ville de Montagne" },
+            { "@type": "Place", "name": "San Diego" },
+            { "@type": "Place", "name": "Quintas do Sol" },
+            { "@type": "Place", "name": "Estância Quintas da Alvorada" },
+            { "@type": "Place", "name": "Ouro Vermelho I e II" },
+            { "@type": "Place", "name": "Belvedere Green" },
+            { "@type": "Place", "name": "Jardim das Paineiras" },
+            { "@type": "Place", "name": "Altiplano Leste" }
+          ]
+        }
+      ],
+      "hasMenu": {
+        "@type": "Menu",
+        "name": "Cardápio Principal Brasa Burger",
+        "hasMenuSection": [
+          {
+            "@type": "MenuSection",
+            "name": "Burgers",
+            "description": "Smash e artesanais feitos no fogo e na brasa",
+            "hasMenuItem": [
+              {
+                "@type": "MenuItem",
+                "name": "Clássico",
+                "description": "Blend bovino 160g, queijo, alface, tomate, cebola e molho da casa no pão brioche",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/burger-classico.webp",
+                "offers": { "@type": "Offer", "price": "28.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Cheddar Bacon",
+                "description": "Blend 160g, cheddar derretido, bacon crocante e cebola no pão brioche",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/burger-cheddar-bacon.webp",
+                "offers": { "@type": "Offer", "price": "34.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Duplo Smash",
+                "description": "Dois discos smash, queijo duplo, picles e molho especial",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/burger-duplo-smash.webp",
+                "offers": { "@type": "Offer", "price": "39.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Frango Crocante",
+                "description": "Filé de frango empanado crocante, alface, tomate e maionese temperada",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/burger-frango.webp",
+                "offers": { "@type": "Offer", "price": "32.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Veggie",
+                "description": "Burger de grão-de-bico e legumes, alface, tomate e cebola roxa",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/burger-veggie.webp",
+                "offers": { "@type": "Offer", "price": "30.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Costela Barbecue",
+                "description": "Costela desfiada, molho barbecue, cebola crispy e queijo prato",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/burger-costela.webp",
+                "offers": { "@type": "Offer", "price": "37.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Salada",
+                "description": "Blend bovino 160g, muita salada fresca, queijo e molho leve",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/burger-classico.webp",
+                "offers": { "@type": "Offer", "price": "29.00", "priceCurrency": "BRL" }
+              }
+            ]
+          },
+          {
+            "@type": "MenuSection",
+            "name": "Acompanhamentos",
+            "description": "Porções crocantes para acompanhar seu burger",
+            "hasMenuItem": [
+              {
+                "@type": "MenuItem",
+                "name": "Batata Frita",
+                "description": "Porção crocante e sequinha",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/batata-frita.webp",
+                "offers": { "@type": "Offer", "price": "15.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Batata c/ Cheddar e Bacon",
+                "description": "Batata frita com cheddar cremoso e bacon crocante",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/batata-cheddar-bacon.webp",
+                "offers": { "@type": "Offer", "price": "24.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Onion Rings",
+                "description": "Anéis de cebola empanados e dourados",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/onion-rings.webp",
+                "offers": { "@type": "Offer", "price": "18.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Nuggets (8un)",
+                "description": "Crocante por fora, macio por dentro",
+                "offers": { "@type": "Offer", "price": "16.00", "priceCurrency": "BRL" }
+              }
+            ]
+          },
+          {
+            "@type": "MenuSection",
+            "name": "Bebidas",
+            "description": "Refrigerantes, sucos, água e cerveja gelada",
+            "hasMenuItem": [
+              {
+                "@type": "MenuItem",
+                "name": "Coca-Cola Lata",
+                "offers": { "@type": "Offer", "price": "6.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Guaraná Lata",
+                "offers": { "@type": "Offer", "price": "6.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Suco 500ml",
+                "description": "Laranja ou maracujá",
+                "offers": { "@type": "Offer", "price": "8.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Água Mineral",
+                "offers": { "@type": "Offer", "price": "4.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Cerveja Long Neck",
+                "description": "Gelada",
+                "offers": { "@type": "Offer", "price": "9.00", "priceCurrency": "BRL" }
+              }
+            ]
+          },
+          {
+            "@type": "MenuSection",
+            "name": "Sobremesas",
+            "description": "Finalize com chave de ouro",
+            "hasMenuItem": [
+              {
+                "@type": "MenuItem",
+                "name": "Milkshake",
+                "description": "Chocolate, morango ou baunilha",
+                "image": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/img/milkshake.webp",
+                "offers": { "@type": "Offer", "price": "18.00", "priceCurrency": "BRL" }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Brownie c/ Sorvete",
+                "description": "Quentinho com sorvete de creme",
+                "offers": { "@type": "Offer", "price": "16.00", "priceCurrency": "BRL" }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://ribeiroarley.github.io/LandingPage-Hamburgueria/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Qual é a área de entrega do delivery do Brasa Burger?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Atendemos com entrega rápida e quentinha todo o São Sebastião (Bairro São José, Bairro São Francisco, Residencial Bosque, Vila Nova, Vila do Boa, Morro da Cruz, Centro, Crixás, Capão Comprido), Jardins Mangueiral (todas as quadras de QC 01 a QC 15) e os principais condomínios do Jardim Botânico (Solar da Serra, Solar de Brasília, Jardim Botânico V, Ville de Montagne, San Diego, Quintas do Sol, Estância Quintas da Alvorada, Ouro Vermelho I e II, Belvedere Green, Jardim das Paineiras e Altiplano Leste)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual o horário de funcionamento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Segunda a Domingo, das 19h às 23h."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais são as formas de pagamento aceitas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PIX, Cartão de Crédito/Débito na entrega e Dinheiro."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como faço meu pedido?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Basta escolher seus burgers e acompanhamentos favoritos diretamente no nosso cardápio online, personalizar adicionais e ponto da carne se desejar, preencher seu endereço e enviar o pedido direto para o nosso WhatsApp já prontinho para produção!"
+          }
+        }
+      ]
+    }
+  ]
+}

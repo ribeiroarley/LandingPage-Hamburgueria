@@ -1,0 +1,9 @@
+# robots.txt para NA BRASA BURGER
+User-agent: *
+Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /img/
+Allow: /seo/
+
+Sitemap: https://ribeiroarley.github.io/LandingPage-Hamburgueria/seo/sitemap.xml
