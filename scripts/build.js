@@ -90,17 +90,23 @@ async function build() {
   // 4. JavaScript Bundling & Ofuscação Estrita
   console.log('🔒 4. Bundling e ofuscação rigorosa de JavaScript...');
   
-  // Rotina de blindagem de interface (anti-inspeção rápida)
+  // Rotina de proteção sem interferir na digitação de inputs ou causar congelamento
   const antiInspectionShield = `
 (function () {
   'use strict';
-  // Bloqueio de clique com o botão direito (contextmenu)
+  // Bloqueio de contextmenu fora de campos de input/textarea (permite colar e interagir nos campos)
   document.addEventListener('contextmenu', function (e) {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) {
+      return;
+    }
     e.preventDefault();
   }, false);
 
-  // Bloqueio de atalhos de desenvolvedor e inspeção
+  // Bloqueio de atalhos de desenvolvedor fora de campos de texto
   document.addEventListener('keydown', function (e) {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) {
+      return;
+    }
     // Bloqueia F12
     if (e.key === 'F12' || e.keyCode === 123) {
       e.preventDefault();
@@ -141,13 +147,13 @@ async function build() {
   console.log('   ⚡ Aplicando javascript-obfuscator com parâmetros estritos...');
   const obfuscationResult = JavaScriptObfuscator.obfuscate(combinedJs, {
     compact: true,
-    controlFlowFlattening: true,
-    deadCodeInjection: true,
-    debugProtection: true,
-    disableConsoleOutput: true,
-    identifierNamesGenerator: 'hexadecimal',
+    controlFlowFlattening: false,
+    deadCodeInjection: false,
+    debugProtection: false,
+    disableConsoleOutput: false,
+    identifierNamesGenerator: 'mangled',
     stringArray: true,
-    stringArrayThreshold: 0.8,
+    stringArrayThreshold: 0.75,
     sourceMap: false
   });
 

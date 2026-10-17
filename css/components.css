@@ -1379,6 +1379,26 @@ input.txt:focus {
   box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.25);
 }
 
+input.txt.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
+  animation: shakeInput 0.3s ease;
+}
+
+@keyframes shakeInput {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.field-sublabel {
+  display: block;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
 .chip-sep {
   opacity: 0.5;
   margin: 0 3px;
@@ -1395,6 +1415,37 @@ input.txt:focus {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 8px;
+}
+
+.pay3 .o2 {
+  cursor: pointer;
+  border: 1.5px solid var(--line);
+  background: var(--card2);
+  color: var(--ink);
+  padding: 10px 6px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  min-height: 44px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pay3 .o2:hover {
+  border-color: var(--mostarda);
+}
+
+.pay3 .o2.sel {
+  background: rgba(254, 216, 21, 0.16);
+  border-color: var(--mostarda);
+  color: var(--mostarda);
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(254, 216, 21, 0.2);
 }
 
 .o2.center {

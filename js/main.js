@@ -783,10 +783,6 @@
       return;
     }
 
-    const s = statusLoja();
-    const cartDiscount = descontoCupom();
-    const hasDiscount = Boolean(cartDiscount && cartDiscount > 0);
-
     const itemsHtml = cart.map(function (l) {
       const it = ALL[l.id] || { n: l.nome, catKey: "burgers" };
       const img = it.img
@@ -812,11 +808,37 @@
       `;
     }).join("");
 
-    body.innerHTML = `
-      ${freteBlock()}
-      <div class="cart-items-list" role="list">${itemsHtml}</div>
-      ${suggestBlock()}
+    const formEl = document.getElementById("cartCheckoutForm");
+    if (formEl) {
+      // Atualização granular reativa sem recriar os campos de texto no DOM (preserva digitação e foco)
+      const freteBox = document.getElementById("cartFreteBox");
+      if (freteBox) freteBox.innerHTML = freteBlock();
 
+      const itemsBox = document.getElementById("cartItemsBox");
+      if (itemsBox) itemsBox.innerHTML = `<div class="cart-items-list" role="list">${itemsHtml}</div>`;
+
+      const suggestBox = document.getElementById("cartSuggestBox");
+      if (suggestBox) suggestBox.innerHTML = suggestBlock();
+    } else {
+      // Primeira montagem do carrinho
+      body.innerHTML = `
+        <div id="cartFreteBox">${freteBlock()}</div>
+        <div id="cartItemsBox"><div class="cart-items-list" role="list">${itemsHtml}</div></div>
+        <div id="cartSuggestBox">${suggestBlock()}</div>
+        <div id="cartCheckoutForm">${checkoutFormHtml()}</div>
+      `;
+      bindCartInputs();
+    }
+
+    renderCartFoot();
+  }
+
+  function checkoutFormHtml() {
+    const e = order.end;
+    const cartDiscount = descontoCupom();
+    const hasDiscount = Boolean(cartDiscount && cartDiscount > 0);
+
+    return `
       <div class="field">
         <label>Forma de entrega</label>
         <div class="delivery-notice-box" role="status">
@@ -830,60 +852,94 @@
         </div>
       </div>
 
-      ${enderecoFormHtml()}
-
-      <div class="field">
-        <label for="fNome">Seu nome</label>
-        <input class="txt" id="fNome" placeholder="Nome de quem recebe" value="${Security.escapeHTML(order.nome)}" maxlength="60">
+      <div class="field" role="group" aria-label="Endereço de entrega">
+        <label>Endereço de entrega</label>
+        <div class="row2">
+          <div>
+            <label for="fEndRua" class="field-sublabel">Rua / Quadra / Condomínio *</label>
+            <input class="txt" id="fEndRua" placeholder="Ex: Quadra QC 03 / Rua 10" value="${Security.escapeHTML(e.rua)}" maxlength="80" autocomplete="street-address">
+          </div>
+          <div>
+            <label for="fEndNum" class="field-sublabel">Número / Lote *</label>
+            <input class="txt" id="fEndNum" placeholder="Ex: Casa 12 / Lote 05" value="${Security.escapeHTML(e.num)}" maxlength="20">
+          </div>
+        </div>
+        <div class="row2" style="margin-top:9px">
+          <div>
+            <label for="fEndBairro" class="field-sublabel">Bairro / Região *</label>
+            <input class="txt" id="fEndBairro" placeholder="Ex: Mangueiral, São Sebastião" value="${Security.escapeHTML(e.bairro)}" maxlength="50" autocomplete="address-level2">
+          </div>
+          <div>
+            <label for="fEndComp" class="field-sublabel">Complemento</label>
+            <input class="txt" id="fEndComp" placeholder="Ex: Bloco B, Apt 302" value="${Security.escapeHTML(e.comp)}" maxlength="40">
+          </div>
+        </div>
+        <div style="margin-top:9px">
+          <label for="fEndRef" class="field-sublabel">Ponto de referência (opcional)</label>
+          <input class="txt" id="fEndRef" placeholder="Ex: Próximo à portaria / padaria" value="${Security.escapeHTML(e.ref)}" maxlength="70">
+        </div>
       </div>
 
       <div class="field">
-        <label for="fTel">Seu WhatsApp</label>
-        <input class="txt" id="fTel" inputmode="tel" placeholder="(11) 90000-0000" value="${Security.escapeHTML(order.tel)}" maxlength="16">
+        <label for="fNome">Seu nome completo *</label>
+        <input class="txt" id="fNome" placeholder="Ex: João da Silva" value="${Security.escapeHTML(order.nome)}" maxlength="60" autocomplete="name">
       </div>
 
       <div class="field">
-        <label>Forma de pagamento</label>
+        <label for="fTel">Seu WhatsApp *</label>
+        <input class="txt" id="fTel" inputmode="tel" placeholder="(61) 99999-9999" value="${Security.escapeHTML(order.tel)}" maxlength="16" autocomplete="tel">
+      </div>
+
+      <div class="field">
+        <label>Forma de pagamento *</label>
         <div class="pay3" role="radiogroup" aria-label="Forma de pagamento">
           <button type="button" class="o2 center ${order.pag === "PIX" ? "sel" : ""}" data-action="set-pag" data-val="PIX" role="radio" aria-checked="${order.pag === "PIX"}">
             💠 PIX
           </button>
-          <button type="button" class="o2 center ${order.pag === "Dinheiro" ? "sel" : ""}" data-action="set-pag" data-val="Dinheiro" role="radio" aria-checked="${order.pag === "Dinheiro"}">
-            💵 Dinheiro
-          </button>
           <button type="button" class="o2 center ${order.pag === "Cartão" ? "sel" : ""}" data-action="set-pag" data-val="Cartão" role="radio" aria-checked="${order.pag === "Cartão"}">
             💳 Cartão
           </button>
+          <button type="button" class="o2 center ${order.pag === "Dinheiro" ? "sel" : ""}" data-action="set-pag" data-val="Dinheiro" role="radio" aria-checked="${order.pag === "Dinheiro"}">
+            💵 Dinheiro
+          </button>
         </div>
-        ${order.pag === "Dinheiro" ? `
-          <input class="txt" id="fTroco" style="margin-top:9px" placeholder="Troco para quanto? (opcional)" value="${Security.escapeHTML(order.troco)}" maxlength="20">
-        ` : ""}
+        <div id="trocoBox" style="display: ${order.pag === "Dinheiro" ? "block" : "none"}; margin-top: 10px;">
+          <label for="fTroco" class="field-sublabel">Troco para quanto? (opcional)</label>
+          <input class="txt" id="fTroco" placeholder="Ex: R$ 50,00 (ou deixe em branco se não precisar)" value="${Security.escapeHTML(order.troco)}" maxlength="30">
+        </div>
       </div>
 
-      ${order.tipo === "entrega" ? `
-        <div class="field">
-          <label>Gorjeta pro entregador (opcional)</label>
-          <div class="tips" role="radiogroup" aria-label="Gorjeta">
-            ${[0, 2, 5].map(function (v) {
-              const isSel = order.gorjeta === v;
-              return `
-                <button type="button" class="tip ${isSel ? "sel" : ""}" data-action="set-gorjeta" data-val="${v}" role="radio" aria-checked="${isSel}">
-                  ${v === 0 ? "Não" : brl(v)}
-                </button>
-              `;
-            }).join("")}
-          </div>
+      <div class="field">
+        <label>Gorjeta pro entregador (opcional)</label>
+        <div class="tips" id="tipsGroup" role="radiogroup" aria-label="Gorjeta">
+          ${[0, 2, 5].map(function (v) {
+            const isSel = order.gorjeta === v;
+            return `
+              <button type="button" class="tip ${isSel ? "sel" : ""}" data-action="set-gorjeta" data-val="${v}" role="radio" aria-checked="${isSel}">
+                ${v === 0 ? "Não" : brl(v)}
+              </button>
+            `;
+          }).join("")}
         </div>
-      ` : ""}
+      </div>
 
       <div class="field">
         <label for="fCupom">Cupom de desconto</label>
-        <div class="coupon ${hasDiscount ? "ok" : ""}">
+        <div class="coupon ${hasDiscount ? "ok" : ""}" id="couponBox">
           <input class="txt" id="fCupom" placeholder="Tem um cupom? (ex: PRIMEIRA10)" value="${Security.escapeHTML(order.cupom)}" maxlength="20">
           <button type="button" data-action="aplicar-cupom">Aplicar</button>
         </div>
       </div>
     `;
+  }
+
+  function renderCartFoot() {
+    const foot = document.getElementById("shFoot");
+    if (!foot) return;
+
+    const s = statusLoja();
+    const cartDiscount = descontoCupom();
+    const hasDiscount = Boolean(cartDiscount && cartDiscount > 0);
 
     foot.innerHTML = `
       <div class="cart-foot-summary" aria-label="Resumo de valores">
@@ -894,13 +950,11 @@
             <span>- ${brl(cartDiscount)}</span>
           </div>
         ` : ""}
-        ${order.tipo === "entrega" ? `
-          <div class="sumrow">
-            <span>Taxa de entrega</span>
-            <span>${taxaEntrega() === 0 ? "Grátis" : brl(taxaEntrega())}</span>
-          </div>
-        ` : ""}
-        ${order.tipo === "entrega" && order.gorjeta ? `
+        <div class="sumrow">
+          <span>Taxa de entrega</span>
+          <span>${taxaEntrega() === 0 ? "Grátis" : brl(taxaEntrega())}</span>
+        </div>
+        ${order.gorjeta ? `
           <div class="sumrow">
             <span>Gorjeta</span>
             <span>${brl(order.gorjeta)}</span>
@@ -914,38 +968,29 @@
 
       <button type="button" class="send" id="sendBtn" data-action="enviar-pedido">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.5.1.3.7 1.1 1.5 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.1.1.6-.1 1.1Z"/></svg>
-        ${s.aberto ? "Enviar pedido no WhatsApp" : "Enviar assim que abrir"}
+        ${s.aberto ? "Finalizar Pedido via WhatsApp" : "Enviar assim que abrir"}
       </button>
       <div class="hint">O pagamento e a confirmação são combinados na conversa do WhatsApp.</div>
     `;
 
-    bindCartInputs();
     updateSendBtn();
   }
 
-  function enderecoFormHtml() {
-    const e = order.end;
-    return `
-      <div class="field" role="group" aria-label="Endereço de entrega">
-        <label>Endereço de entrega</label>
-        <div class="row2">
-          <input class="txt" id="fEndRua" placeholder="Rua / Avenida" value="${Security.escapeHTML(e.rua)}" maxlength="80">
-          <input class="txt" id="fEndNum" placeholder="Número" value="${Security.escapeHTML(e.num)}" maxlength="15">
-        </div>
-        <div class="row2" style="margin-top:9px">
-          <input class="txt" id="fEndBairro" placeholder="Bairro" value="${Security.escapeHTML(e.bairro)}" maxlength="40">
-          <input class="txt" id="fEndComp" placeholder="Complemento" value="${Security.escapeHTML(e.comp)}" maxlength="30">
-        </div>
-        <input class="txt" id="fEndRef" style="margin-top:9px" placeholder="Ponto de referência (opcional)" value="${Security.escapeHTML(e.ref)}" maxlength="60">
-      </div>
-    `;
+  function formatPhone(v) {
+    const digits = String(v || "").replace(/\D/g, "").slice(0, 11);
+    if (!digits) return "";
+    if (digits.length <= 2) return `(${digits}`;
+    if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+    if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7, 11)}`;
   }
 
   function bindCartInputs() {
     const fNome = document.getElementById("fNome");
     if (fNome) {
       fNome.addEventListener("input", function (e) {
-        order.nome = Security.sanitizeText(e.target.value);
+        order.nome = e.target.value;
+        e.target.classList.remove("input-error");
         updateSendBtn();
       });
     }
@@ -953,7 +998,11 @@
     const fTel = document.getElementById("fTel");
     if (fTel) {
       fTel.addEventListener("input", function (e) {
-        order.tel = Security.sanitizeText(e.target.value);
+        const raw = e.target.value;
+        const formatted = formatPhone(raw);
+        e.target.value = formatted;
+        order.tel = formatted;
+        e.target.classList.remove("input-error");
         updateSendBtn();
       });
     }
@@ -961,14 +1010,15 @@
     const fTroco = document.getElementById("fTroco");
     if (fTroco) {
       fTroco.addEventListener("input", function (e) {
-        order.troco = Security.sanitizeText(e.target.value);
+        order.troco = e.target.value;
       });
     }
 
     const fRua = document.getElementById("fEndRua");
     if (fRua) {
       fRua.addEventListener("input", function (e) {
-        order.end.rua = Security.sanitizeText(e.target.value);
+        order.end.rua = e.target.value;
+        e.target.classList.remove("input-error");
         updateSendBtn();
       });
     }
@@ -976,7 +1026,8 @@
     const fNum = document.getElementById("fEndNum");
     if (fNum) {
       fNum.addEventListener("input", function (e) {
-        order.end.num = Security.sanitizeText(e.target.value);
+        order.end.num = e.target.value;
+        e.target.classList.remove("input-error");
         updateSendBtn();
       });
     }
@@ -984,7 +1035,8 @@
     const fBairro = document.getElementById("fEndBairro");
     if (fBairro) {
       fBairro.addEventListener("input", function (e) {
-        order.end.bairro = Security.sanitizeText(e.target.value);
+        order.end.bairro = e.target.value;
+        e.target.classList.remove("input-error");
         updateSendBtn();
       });
     }
@@ -992,14 +1044,14 @@
     const fComp = document.getElementById("fEndComp");
     if (fComp) {
       fComp.addEventListener("input", function (e) {
-        order.end.comp = Security.sanitizeText(e.target.value);
+        order.end.comp = e.target.value;
       });
     }
 
     const fRef = document.getElementById("fEndRef");
     if (fRef) {
       fRef.addEventListener("input", function (e) {
-        order.end.ref = Security.sanitizeText(e.target.value);
+        order.end.ref = e.target.value;
       });
     }
   }
@@ -1098,17 +1150,38 @@
 
   function setTipo(t) {
     order.tipo = t;
-    renderCart();
   }
 
   function setPag(p) {
     order.pag = p;
-    renderCart();
+    const btns = document.querySelectorAll("[data-action='set-pag']");
+    btns.forEach(function (btn) {
+      const isSel = btn.getAttribute("data-val") === p;
+      btn.classList.toggle("sel", isSel);
+      btn.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+
+    const trocoBox = document.getElementById("trocoBox");
+    if (trocoBox) {
+      trocoBox.style.display = (p === "Dinheiro" ? "block" : "none");
+      if (p === "Dinheiro") {
+        const fTroco = document.getElementById("fTroco");
+        if (fTroco) fTroco.focus();
+      }
+    }
+    updateSendBtn();
   }
 
   function setGorjeta(v) {
     order.gorjeta = Number(v) || 0;
-    renderCart();
+    const tipBtns = document.querySelectorAll("#tipsGroup .tip, [data-action='set-gorjeta']");
+    tipBtns.forEach(function (btn) {
+      const val = Number(btn.getAttribute("data-val")) || 0;
+      const isSel = (val === order.gorjeta);
+      btn.classList.toggle("sel", isSel);
+      btn.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+    renderCartFoot();
   }
 
   function aplicarCupom() {
@@ -1116,13 +1189,22 @@
     const code = Security.sanitizeCoupon(input ? input.value : "");
     order.cupom = code;
 
+    const couponBox = document.getElementById("couponBox");
     if (CONFIG.cupons[code]) {
       toast("Cupom aplicado: " + CONFIG.cupons[code].label);
+      if (couponBox) couponBox.classList.add("ok");
     } else if (code) {
       toast("Cupom inválido");
       order.cupom = "";
+      if (couponBox) couponBox.classList.remove("ok");
+    } else {
+      if (couponBox) couponBox.classList.remove("ok");
     }
-    renderCart();
+
+    const freteBox = document.getElementById("cartFreteBox");
+    if (freteBox) freteBox.innerHTML = freteBlock();
+
+    renderCartFoot();
   }
 
   function updateSendBtn() {
@@ -1130,96 +1212,127 @@
     if (!b) return;
 
     const ok = Security.validateName(order.nome) && Security.validatePhone(order.tel) && Security.validateAddress(order.end);
-    b.disabled = !ok;
+    b.classList.toggle("ready", ok);
+    b.disabled = false;
   }
 
   /* ==========================================================================
      10. ENVIO DO PEDIDO PARA O WHATSAPP
      ========================================================================== */
-  function enviarPedido() {
-    if (!Security.validateName(order.nome)) {
-      toast("Digite seu nome completo");
-      const el = document.getElementById("fNome");
-      if (el) el.focus();
-      return;
+  function highlightAndFocus(id, msg) {
+    toast(msg);
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add("input-error");
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(function () {
+        el.focus();
+      }, 250);
     }
-    if (!Security.validatePhone(order.tel)) {
-      toast("Digite seu WhatsApp com DDD");
-      const el = document.getElementById("fTel");
-      if (el) el.focus();
-      return;
-    }
-    if (!Security.validateAddress(order.end)) {
-      toast("Preencha rua, número e bairro para entrega");
-      const el = document.getElementById("fEndRua");
-      if (el) el.focus();
-      return;
-    }
+  }
 
+  function montarComandaWhatsApp() {
     const L = [];
-    L.push(`🍔 *NOVO PEDIDO DELIVERY — ${CONFIG.nome}*`);
-    L.push("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    L.push(`👤 *Cliente:* ${order.nome.trim()}`);
-    L.push(`📱 *WhatsApp:* ${order.tel.trim()}`);
+    L.push("════════════════════════════");
+    L.push(`🍔 *NOVO PEDIDO - ${CONFIG.nome}* 🍔`);
+    L.push("════════════════════════════");
+    L.push(`*Cliente:* ${order.nome.trim()}`);
+    L.push(`*WhatsApp:* ${order.tel.trim()}`);
     L.push("");
-
-    const e = order.end;
-    L.push(`📍 *ENDEREÇO DE ENTREGA:*`);
-    L.push(`• *Rua:* ${e.rua}, Nº ${e.num}`);
-    if (e.comp) L.push(`• *Complemento:* ${e.comp}`);
-    L.push(`• *Bairro:* ${e.bairro}`);
-    if (e.ref) L.push(`• *Ponto de Referência:* ${e.ref}`);
+    L.push("📍 *ENDEREÇO DE ENTREGA:*");
+    L.push(`• Endereço: ${order.end.rua.trim()}, Nº ${order.end.num.trim()}`);
+    L.push(`• Bairro/Região: ${order.end.bairro.trim()}`);
+    const compRef = [
+      order.end.comp ? order.end.comp.trim() : "",
+      order.end.ref ? ("Ref: " + order.end.ref.trim()) : ""
+    ].filter(Boolean).join(" · ");
+    L.push(`• Complemento/Ref: ${compRef || "Não informado"}`);
     L.push("");
-
-    L.push(`🛍️ *ITENS DO PEDIDO:*`);
-    cart.forEach(function (l, idx) {
+    L.push("📋 *ITENS DO PEDIDO:*");
+    cart.forEach(function (l) {
       if (l.burger) {
         const nome = l.combo ? `${l.nome} — Combo (batata + refri)` : l.nome;
-        L.push(`${idx + 1}. *${l.qty}x ${nome}* — ${brl(l.precoUnit * l.qty)}`);
-        if (l.carne && l.pontoNome) L.push(`   └ Ponto: ${l.pontoNome}`);
-        if (l.adicsNome && l.adicsNome.length) L.push(`   └ Adicionais: ${l.adicsNome.join(", ")}`);
-        if (l.obs) L.push(`   └ Obs: ${l.obs}`);
+        L.push(`${l.qty}x ${nome} (${brl(l.precoUnit * l.qty)})`);
+        const detalhes = [];
+        if (l.carne && l.pontoNome) detalhes.push(`Ponto: ${l.pontoNome}`);
+        if (l.adicsNome && l.adicsNome.length) detalhes.push(`Adicionais: ${l.adicsNome.join(", ")}`);
+        if (l.obs && l.obs.trim()) detalhes.push(`Obs: ${l.obs.trim()}`);
+        if (detalhes.length) {
+          L.push(`  ↳ _${detalhes.join(" | ")}_`);
+        }
       } else {
-        L.push(`${idx + 1}. *${l.qty}x ${l.nome}* — ${brl(l.precoUnit * l.qty)}`);
-        if (l.obs) L.push(`   └ Obs: ${l.obs}`);
+        L.push(`${l.qty}x ${l.nome} (${brl(l.precoUnit * l.qty)})`);
+        if (l.obs && l.obs.trim()) {
+          L.push(`  ↳ _Obs: ${l.obs.trim()}_`);
+        }
       }
     });
     L.push("");
-
-    L.push(`💰 *RESUMO DE VALORES:*`);
-    L.push(`• Subtotal: ${brl(subtotal())}`);
-    if (descontoCupom() > 0) {
-      L.push(`• Desconto Cupom (${order.cupom}): -${brl(descontoCupom())}`);
+    if (descontoCupom() > 0 || order.gorjeta > 0 || taxaEntrega() > 0) {
+      L.push("💵 *VALORES:*");
+      L.push(`• Subtotal: ${brl(subtotal())}`);
+      if (descontoCupom() > 0) {
+        L.push(`• Cupom (${order.cupom}): -${brl(descontoCupom())}`);
+      }
+      L.push(`• Entrega: ${taxaEntrega() === 0 ? "GRÁTIS" : brl(taxaEntrega())}`);
+      if (order.gorjeta > 0) {
+        L.push(`• Gorjeta do entregador: ${brl(order.gorjeta)}`);
+      }
+      L.push("");
     }
-    L.push(`• Taxa de entrega: ${taxaEntrega() === 0 ? "GRÁTIS" : brl(taxaEntrega())}`);
-    if (order.gorjeta) {
-      L.push(`• Gorjeta do entregador: ${brl(order.gorjeta)}`);
-    }
-    L.push(`• *TOTAL DO PEDIDO: ${brl(total())}*`);
-    L.push("");
-
-    let pagTexto = "PIX";
+    L.push("────────────────────────────");
+    let pagStr = "PIX";
     if (order.pag === "Cartão") {
-      pagTexto = "Cartão na Entrega (Maquininha Débito/Crédito)";
+      pagStr = "Cartão na Entrega (Débito/Crédito)";
     } else if (order.pag === "Dinheiro") {
-      pagTexto = order.troco ? `Dinheiro (Troco para ${order.troco})` : "Dinheiro (Não precisa de troco)";
-    } else {
-      pagTexto = "PIX (Aguardando envio de chave/QR Code)";
+      pagStr = order.troco && order.troco.trim() ? `Dinheiro (Troco para ${order.troco.trim()})` : "Dinheiro (Não precisa de troco)";
     }
-    L.push(`💳 *FORMA DE PAGAMENTO:* ${pagTexto}`);
-    L.push("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    L.push(`_✅ Pedido enviado via cardápio online do ${CONFIG.nome} • 100% Delivery_`);
-    L.push(`_Por favor, confirme o tempo estimado para entrega!_`);
+    L.push(`💳 *FORMA DE PAGAMENTO:* ${pagStr}`);
+    L.push(`💰 *TOTAL DO PEDIDO:* *${brl(total())}*`);
+    L.push("────────────────────────────");
+    L.push("_Pedido realizado via Cardápio Online_");
+    return L.join("\n");
+  }
+
+  function enviarPedido() {
+    if (!cart.length) {
+      toast("Seu carrinho está vazio");
+      return;
+    }
+
+    const e = order.end;
+    if (!e.rua || e.rua.trim().length < 2) {
+      highlightAndFocus("fEndRua", "Informe a rua, quadra ou condomínio");
+      return;
+    }
+    if (!e.num || e.num.trim().length < 1) {
+      highlightAndFocus("fEndNum", "Informe o número da casa ou lote");
+      return;
+    }
+    if (!e.bairro || e.bairro.trim().length < 2) {
+      highlightAndFocus("fEndBairro", "Informe o bairro ou região");
+      return;
+    }
+    if (!Security.validateName(order.nome)) {
+      highlightAndFocus("fNome", "Digite seu nome completo");
+      return;
+    }
+    if (!Security.validatePhone(order.tel)) {
+      highlightAndFocus("fTel", "Digite seu WhatsApp com DDD (ex: 61 99999-9999)");
+      return;
+    }
 
     try {
-      localStorage.setItem("bb_last", JSON.stringify({ cart: cart, order: { ...order } }));
       localStorage.setItem("bb_nome", order.nome.trim());
       localStorage.setItem("bb_tel", order.tel.trim());
+      localStorage.setItem("bb_end", JSON.stringify(order.end));
+      localStorage.setItem("bb_last", JSON.stringify({ cart: cart, order: { ...order } }));
     } catch (err) {
       console.warn("Não foi possível salvar no localStorage:", err);
     }
 
-    const whatsappUrl = `https://wa.me/${CONFIG.whatsapp}?text=` + encodeURIComponent(L.join("\n"));
+    const textoComanda = montarComandaWhatsApp();
+    const whatsappUrl = `https://wa.me/${CONFIG.whatsapp}?text=` + encodeURIComponent(textoComanda);
     Security.safeOpenUrl(whatsappUrl);
   }
 
@@ -1234,12 +1347,44 @@
     }
   }
 
+  function syncFormInputs() {
+    const fNome = document.getElementById("fNome");
+    if (fNome && order.nome) fNome.value = order.nome;
+    const fTel = document.getElementById("fTel");
+    if (fTel && order.tel) fTel.value = order.tel;
+    const fRua = document.getElementById("fEndRua");
+    if (fRua && order.end.rua) fRua.value = order.end.rua;
+    const fNum = document.getElementById("fEndNum");
+    if (fNum && order.end.num) fNum.value = order.end.num;
+    const fBairro = document.getElementById("fEndBairro");
+    if (fBairro && order.end.bairro) fBairro.value = order.end.bairro;
+    const fComp = document.getElementById("fEndComp");
+    if (fComp && order.end.comp) fComp.value = order.end.comp;
+    const fRef = document.getElementById("fEndRef");
+    if (fRef && order.end.ref) fRef.value = order.end.ref;
+    const fTroco = document.getElementById("fTroco");
+    if (fTroco && order.troco) fTroco.value = order.troco;
+    updateSendBtn();
+  }
+
   function initRepeat() {
     try {
       const nome = localStorage.getItem("bb_nome");
       if (nome) {
         order.nome = nome;
-        order.tel = localStorage.getItem("bb_tel") || "";
+      }
+      const tel = localStorage.getItem("bb_tel");
+      if (tel) {
+        order.tel = tel;
+      }
+      const savedEnd = localStorage.getItem("bb_end");
+      if (savedEnd) {
+        try {
+          const parsed = JSON.parse(savedEnd);
+          if (parsed && typeof parsed === "object") {
+            order.end = { ...order.end, ...parsed };
+          }
+        } catch (_) {}
       }
 
       const last = localStorage.getItem("bb_last");
@@ -1278,10 +1423,13 @@
         order.tel = d.order.tel || order.tel;
         order.tipo = d.order.tipo || "";
         order.end = d.order.end || order.end;
+        if (d.order.pag) setPag(d.order.pag);
+        if (d.order.troco) order.troco = d.order.troco;
       }
 
       onCartChange();
       openCart();
+      syncFormInputs();
       toast("Pedido anterior carregado!");
     } catch (e) {
       toast("Erro ao carregar pedido anterior");

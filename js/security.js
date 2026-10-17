@@ -103,12 +103,13 @@
   }
 
   /**
-   * Validação de nome (mínimo 2 caracteres, apenas letras e espaços razoáveis)
+   * Validação de nome (mínimo 2 caracteres)
    * @param {string} name
    * @returns {boolean}
    */
   function validateName(name) {
-    const clean = sanitizeText(name);
+    if (!name || typeof name !== "string") return false;
+    const clean = name.trim();
     return clean.length >= 2 && clean.length <= 80;
   }
 
@@ -129,9 +130,9 @@
    */
   function validateAddress(end) {
     if (!end || typeof end !== "object") return false;
-    const rua = sanitizeText(end.rua);
-    const num = sanitizeText(end.num);
-    const bairro = sanitizeText(end.bairro);
+    const rua = (end.rua || "").trim();
+    const num = (end.num || "").trim();
+    const bairro = (end.bairro || "").trim();
     return rua.length >= 2 && num.length >= 1 && bairro.length >= 2;
   }
 
