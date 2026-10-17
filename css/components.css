@@ -852,7 +852,7 @@ body.modal-open .fab {
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 16px 24px 90px;
+  padding: 16px 24px 120px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -865,46 +865,7 @@ body.modal-open .fab {
   z-index: 10;
   background: #1C1917;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px));
-}
-
-.send.send-unified {
-  width: 100%;
-  height: 52px;
-  min-height: 50px;
-  max-height: 54px;
-  padding: 0 18px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.send-unified .send-lbl {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.send-unified .send-lbl svg {
-  width: 19px;
-  height: 19px;
-  flex-shrink: 0;
-}
-
-.send-unified .send-price {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 4px 10px;
-  border-radius: 8px;
-  white-space: nowrap;
+  padding: 6px 16px calc(6px + env(safe-area-inset-bottom, 0px));
 }
 
 .cart-items-list {
@@ -1634,6 +1595,45 @@ input.txt.input-error {
   width: 20px;
   height: 20px;
   fill: currentColor;
+}
+
+.send.send-unified {
+  width: 100%;
+  height: 50px;
+  min-height: 48px;
+  max-height: 52px;
+  padding: 0 18px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.send-unified .send-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.send-unified .send-lbl svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.send-unified .send-price {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  background: rgba(0, 0, 0, 0.22);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
 .hint {

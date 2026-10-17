@@ -49,8 +49,18 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    padding: 12px 16px 90px;
+    padding: 12px 16px 120px;
     gap: 10px;
+  }
+
+  .sh-foot {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    background: #1C1917;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6px 14px calc(6px + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -348,7 +358,7 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    padding: 12px 16px 90px;
+    padding: 12px 16px 120px;
     gap: 10px;
   }
 
@@ -359,14 +369,14 @@
     z-index: 10;
     background: #1C1917;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 7px 14px calc(7px + env(safe-area-inset-bottom, 0px));
+    padding: 6px 14px calc(6px + env(safe-area-inset-bottom, 0px));
   }
 
   .send.send-unified {
-    height: 50px;
-    min-height: 50px;
+    height: 48px;
+    min-height: 48px;
     max-height: 52px;
-    padding: 0 18px;
+    padding: 0 16px;
     border-radius: 11px;
   }
 

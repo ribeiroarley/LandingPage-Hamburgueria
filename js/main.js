@@ -1568,9 +1568,20 @@
     document.head.appendChild(manifestLink);
 
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js").catch(function (err) {
-        console.debug("SW:", err);
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener("controllerchange", function () {
+        if (refreshing) return;
+        refreshing = true;
+        window.location.reload();
       });
+
+      navigator.serviceWorker.register("./sw.js?v=5", { updateViaCache: "none" })
+        .then(function (reg) {
+          reg.update().catch(function () {});
+        })
+        .catch(function (err) {
+          console.debug("SW:", err);
+        });
     }
   }
 
