@@ -8,12 +8,9 @@
    0. PREVENÇÃO DE SUPER ZOOM MOBILE (Solução dos 16px para iOS Safari & Chrome)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-  input[type="text"],
-  input[type="tel"],
-  input[type="number"],
-  input[type="search"],
-  input[type="password"],
-  input[type="email"],
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+  input.obs-in,
+  .coupon input,
   textarea,
   select,
   .txt,
@@ -275,6 +272,7 @@
 
   /* Modal de Customização: Bottom Sheet Mobile */
   .sheet {
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
@@ -292,8 +290,9 @@
     overscroll-behavior: contain;
   }
 
+  /* Aberto: sem transform ativo (evita novo contexto no Safari que causa salto/zoom ao focar inputs) */
   .sheet.on {
-    transform: translateY(0);
+    transform: none;
   }
 
   .sheet-drag {
@@ -306,6 +305,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    touch-action: pan-y;
     padding: 16px 18px 24px;
   }
 
