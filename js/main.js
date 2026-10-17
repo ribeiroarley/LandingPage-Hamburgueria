@@ -842,19 +842,6 @@
     const hasDiscount = Boolean(cartDiscount && cartDiscount > 0);
 
     return `
-      <div class="field">
-        <label>Forma de entrega</label>
-        <div class="delivery-notice-box" role="status">
-          <span class="delivery-badge-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M19 7c0-1.1-.9-2-2-2h-3v2h3v2.65L13.52 14H10V9H6c-2.21 0-4 1.79-4 4v3h2c0 1.66 1.34 3 3 3s3-1.34 3-3h4c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-4-4zm-12 10c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm11 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-          </span>
-          <div>
-            <strong>100% Delivery em Domicílio</strong>
-            <small>Preencha os dados abaixo para receber quentinho no seu endereço</small>
-          </div>
-        </div>
-      </div>
-
       <div class="field" role="group" aria-label="Endereço de entrega">
         <label>Endereço de entrega</label>
         <div class="row2">
@@ -980,16 +967,13 @@
     const s = statusLoja();
 
     foot.innerHTML = `
-      <div class="sh-foot-bar">
-        <div class="sh-foot-tot">
-          <span class="lbl">Total</span>
-          <strong class="val">${brl(total())}</strong>
-        </div>
-        <button type="button" class="send send-compact" id="sendBtn" data-action="enviar-pedido">
+      <button type="button" class="send send-unified" id="sendBtn" data-action="enviar-pedido">
+        <span class="send-lbl">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.5.1.3.7 1.1 1.5 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.1.1.6-.1 1.1Z"/></svg>
-          <span>${s.aberto ? "Finalizar Pedido via WhatsApp" : "Enviar assim que abrir"}</span>
-        </button>
-      </div>
+          <span>${s.aberto ? "Finalizar Pedido" : "Enviar pedido"}</span>
+        </span>
+        <span class="send-price">${brl(total())}</span>
+      </button>
     `;
 
     updateSendBtn();
