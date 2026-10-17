@@ -1,6 +1,6 @@
-# Arquitetura Técnica — Bendito Burger
+# Arquitetura Técnica — NA BRASA BURGER
 
-Este documento descreve a estrutura arquitetural, os padrões de engenharia de software, a divisão modular e as diretrizes rigorosas de segurança aplicadas no projeto **Bendito Burger**.
+Este documento descreve a estrutura arquitetural, os padrões de engenharia de software, a divisão modular e as diretrizes rigorosas de segurança aplicadas no projeto **NA BRASA BURGER**.
 
 ---
 

@@ -1,18 +1,146 @@
 /* ==========================================================================
-   BENDITO BURGER — RESPONSIVE.CSS
-   Design Responsivo & Usabilidade (Padrão iFood / 99 Food)
-   Mobile-First (Base, 480px, 768px, 1024px, 1280px)
+   NA BRASA BURGER — RESPONSIVE.CSS
+   Design Responsivo, Mobile-First & Usabilidade Touch
+   Breakpoints: Mobile (< 640px), Tablet (640px–1024px), Desktop (1024px+)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. MOBILE BASE & PADRÃO IFOOD / 99 (até 768px)
+   1. MOBILE BASE (< 640px)
    -------------------------------------------------------------------------- */
-@media (max-width: 768px) {
+@media (max-width: 639.98px) {
   body {
-    padding-bottom: 84px; /* Espaço para a barra de pedido fixa não cobrir conteúdo */
+    padding-bottom: 84px; /* Evita que a barra de pedido fixa sobreponha o conteúdo */
   }
 
-  /* Cards do Cardápio: Layout em lista com Thumbnail à direita */
+  /* Cabeçalho Hero: Empilhado, centralizado e harmônico */
+  .hero-in {
+    padding: 20px 14px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .brand {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .brand .logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+  }
+
+  .brand h1 {
+    font-size: clamp(28px, 9vw, 36px);
+    line-height: 1;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .brand .tg {
+    font-size: 12px;
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* Linha de Chips: Duas linhas proporcionais, slim e centralizadas */
+  .meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .meta-actions {
+    gap: 8px;
+  }
+
+  .chip {
+    height: 34px;
+    min-height: 34px;
+    max-height: 34px;
+    padding: 0 12px;
+    font-size: 12px;
+    gap: 6px;
+    border-radius: 9999px;
+    white-space: nowrap;
+  }
+
+  .chip.chip-action {
+    padding: 0 16px;
+  }
+
+  .chip a {
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .repeat {
+    justify-content: center;
+    text-align: center;
+    min-height: 46px;
+    padding: 12px;
+    font-size: 13.5px;
+  }
+
+  /* Barra de Navegação Horizontal Fluida */
+  .nav {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  .nav-in {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    padding: 8px 16px;
+    gap: 8px;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+  }
+
+  .nav .tab-btn,
+  .nav a,
+  .tab-btn {
+    min-height: 38px;
+    padding: 8px 14px;
+    font-size: 13.5px;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+  }
+
+  /* Grid e Cards de Produtos em 1 Coluna */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .card {
     display: flex;
     flex-direction: row;
@@ -20,10 +148,10 @@
     justify-content: space-between;
     gap: 12px;
     padding: 12px;
+    min-height: 114px;
   }
 
-  .card .txt {
-    order: 1;
+  .card-left {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -31,32 +159,74 @@
     justify-content: space-between;
   }
 
-  .card .txt h3 {
+  .card-left h3 {
     font-size: 15px;
     line-height: 1.25;
   }
 
-  .card .txt .desc {
+  .card-left .desc {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    font-size: 12.5px;
+    font-size: 12px;
     line-height: 1.35;
     margin: 4px 0 8px;
   }
 
-  .card .thumb {
-    order: 2;
-    width: 84px;
-    height: 84px;
+  .card-price-row {
+    margin-top: auto;
+  }
+
+  .card-right {
+    width: 88px;
+    min-width: 88px;
+    max-width: 88px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .card-right .thumb {
+    width: 88px;
+    height: 88px;
+    aspect-ratio: 1 / 1;
     border-radius: 12px;
     object-fit: cover;
     flex-shrink: 0;
-    align-self: center;
   }
 
-  /* Barra de Pedido Fixa no Rodapé (Padrão iFood) */
+  .card-act {
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .card-act .add {
+    width: 100%;
+    height: 34px;
+    min-height: 34px;
+    max-height: 34px;
+    padding: 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .card-act .qtc {
+    width: 100%;
+    height: 34px;
+    min-height: 34px;
+    max-height: 34px;
+  }
+
+  .card-act .qtc button {
+    width: 28px;
+    height: 34px;
+  }
+
+  /* Barra de Pedido Fixa no Rodapé (Mobile / Padrão iFood) */
   .fab {
     left: 0;
     right: 0;
@@ -82,19 +252,21 @@
     display: none;
   }
 
-  /* Modal de Customização: Bottom Sheet Mobile (Padrão iFood / 99) */
+  /* Modal de Customização: Bottom Sheet Mobile */
   .sheet {
     left: 0;
     right: 0;
     bottom: 0;
     top: auto;
     width: 100%;
-    max-height: 90vh;
+    max-height: 92vh;
     border-radius: 20px 20px 0 0;
     transform: translateY(100%);
     transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     border-top: 2px solid var(--mostarda);
     box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
   }
 
   .sheet.on {
@@ -109,7 +281,8 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
-    padding: 16px 20px;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 18px;
   }
 
   .sh-foot {
@@ -119,73 +292,245 @@
     z-index: 10;
     background: #1C1917;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+    padding: 14px 18px calc(14px + env(safe-area-inset-bottom, 0px));
   }
 
-  /* Toast posicionado no topo sem sobrepor o checkout */
   .toast {
     top: 16px;
     right: 16px;
     max-width: calc(100vw - 32px);
   }
+
+  /* Rodapé Mobile: Empilhado, centralizado e seguro */
+  .foot-in {
+    padding: 30px 14px calc(34px + env(safe-area-inset-bottom, 0px));
+    gap: 12px;
+  }
+
+  .foot-social {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+    margin: 6px auto;
+    gap: 8px;
+  }
+
+  .foot-social a {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  /* FAQ & Cobertura Regional Mobile */
+  .faq-section {
+    padding: 0 12px;
+    margin-top: 24px;
+  }
+
+  .faq-container {
+    padding: 22px 14px 18px;
+    border-radius: 14px;
+  }
+
+  .faq-head {
+    margin-bottom: 18px;
+  }
+
+  .faq-head h2 {
+    font-size: 20px;
+  }
+
+  .faq-subtitle {
+    font-size: 12.5px;
+  }
+
+  .faq-question {
+    font-size: 13.5px;
+    padding: 14px 12px;
+    gap: 10px;
+  }
+
+  .faq-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .faq-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .faq-answer {
+    padding: 0 12px 14px;
+    font-size: 13px;
+  }
+
+  .region-block {
+    padding: 8px 10px;
+  }
+
+  .region-block strong {
+    font-size: 11.5px;
+  }
+
+  .region-block p {
+    font-size: 12px;
+  }
 }
 
 /* --------------------------------------------------------------------------
-   2. BREAKPOINT 480px (Smartphones Maiores & Phablets)
+   2. TELAS ULTRACOMPACTAS (<= 360px: iPhone SE, Galaxy Fold Fechado)
    -------------------------------------------------------------------------- */
-@media (min-width: 480px) and (max-width: 768px) {
-  .card .thumb {
+@media (max-width: 360px) {
+  .hero-in {
+    padding: 16px 10px 18px;
+  }
+
+  .brand h1 {
+    font-size: 26px;
+  }
+
+  .brand .logo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .card {
+    gap: 8px;
+    padding: 10px;
+    min-height: 104px;
+  }
+
+  .card-right {
+    width: 78px;
+    min-width: 78px;
+    max-width: 78px;
+    gap: 6px;
+  }
+
+  .card-right .thumb {
+    width: 78px;
+    height: 78px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .card-act .add {
+    height: 32px;
+    min-height: 32px;
+    padding: 0 4px;
+    font-size: 12px;
+  }
+
+  .card-act .qtc {
+    height: 32px;
+    min-height: 32px;
+  }
+
+  .card-act .qtc button {
+    width: 24px;
+    height: 32px;
+  }
+
+  .row2 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .pay3 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. TABLETS & TELAS MÉDIAS (640px a 1024px: 2 Colunas)
+   -------------------------------------------------------------------------- */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .hero-in {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .brand {
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .meta {
+    margin: 14px auto 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .meta-row {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .nav-in {
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
+
+  .nav-in::after {
+    display: none !important;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .card-right {
+    width: 96px;
+    min-width: 96px;
+    max-width: 96px;
+  }
+
+  .card-right .thumb {
     width: 96px;
     height: 96px;
   }
 
-  .hero-in {
-    padding: 24px 20px;
+  .foot-social {
+    flex-direction: row;
+    gap: 12px;
   }
 
-  .brand .logo {
-    width: 64px;
-    height: 64px;
-  }
-
-  .brand h1 {
-    font-size: 40px;
+  .foot-social a {
+    width: auto;
   }
 }
 
 /* --------------------------------------------------------------------------
-   3. BREAKPOINT 769px+ (Tablets & Desktop: Modal Centralizado)
+   4. TELAS MÉDIAS E MAIORES (>= 769px: Modal Centralizado)
    -------------------------------------------------------------------------- */
 @media (min-width: 769px) {
   body {
     padding-bottom: 40px;
   }
 
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .hero-in {
-    padding: 32px 24px;
-  }
-
-  .brand .logo {
-    width: 72px;
-    height: 72px;
-  }
-
-  .brand h1 {
-    font-size: 46px;
-  }
-
-  /* Modal clássico centralizado na viewport no Desktop */
+  /* Modal clássico centralizado na viewport */
   .sheet {
     left: 50%;
     top: 50%;
     bottom: auto;
     right: auto;
-    width: min(90vw, 600px);
+    width: min(90vw, 580px);
     max-height: 85vh;
     border-radius: 20px;
     transform: translate(-50%, -46%) scale(0.96);
@@ -193,7 +538,7 @@
     pointer-events: none;
     border: 1.5px solid var(--line);
     border-top: 3px solid var(--mostarda);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
     transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.2s ease;
   }
 
@@ -230,11 +575,72 @@
 }
 
 /* --------------------------------------------------------------------------
-   4. BREAKPOINT 1024px+ (Desktop & Laptops: Barra Flutuante no Canto Inferior Direito)
+   5. DESKTOP (>= 1024px: 3 Colunas & Barra Lateral)
    -------------------------------------------------------------------------- */
 @media (min-width: 1024px) {
+  :root {
+    --container-max: 1140px;
+  }
+
   main {
     padding: 16px 20px 50px;
+  }
+
+  .hero-in {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .brand {
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .brand .logo {
+    width: 72px;
+    height: 72px;
+  }
+
+  .brand h1 {
+    font-size: 44px;
+  }
+
+  .meta {
+    margin: 16px auto 0;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .meta-row {
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .nav-in {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center;
+    margin: 0 auto !important;
+    max-width: var(--container-max);
+    overflow: visible !important;
+  }
+
+  .nav-in::after {
+    display: none !important;
   }
 
   .sec {
@@ -244,6 +650,32 @@
 
   .sec-h h2 {
     font-size: 28px;
+  }
+
+  /* Grid em 3 Colunas no Desktop */
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .card:hover {
+    border-color: rgba(232, 163, 61, 0.4);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+  }
+
+  .card-right {
+    width: 96px;
+    min-width: 96px;
+    max-width: 96px;
+  }
+
+  .card-right .thumb {
+    width: 96px;
+    height: 96px;
   }
 
   /* Barra de Pedido Flutuante no Canto Inferior Direito */
@@ -277,16 +709,6 @@
     pointer-events: none;
   }
 
-  .card:hover {
-    border-color: rgba(232, 163, 61, 0.4);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
-  }
-
-  .card .thumb {
-    width: 116px;
-    height: 116px;
-  }
-
   .sobre {
     padding: 32px 24px 8px;
     margin-top: 32px;
@@ -305,15 +727,16 @@
 }
 
 /* --------------------------------------------------------------------------
-   5. BREAKPOINT 1280px+ (Telas Grandes & Ultrawide)
+   6. TELAS GRANDES & ULTRAWIDE (>= 1280px)
    -------------------------------------------------------------------------- */
 @media (min-width: 1280px) {
   :root {
-    --container-max: 1080px;
-    --content-max: 900px;
+    --container-max: 1240px;
+    --content-max: 960px;
   }
 
   .grid {
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
 
@@ -321,14 +744,20 @@
     padding: 16px;
   }
 
-  .card .thumb {
-    width: 120px;
-    height: 120px;
+  .card-right {
+    width: 104px;
+    min-width: 104px;
+    max-width: 104px;
+  }
+
+  .card-right .thumb {
+    width: 104px;
+    height: 104px;
   }
 }
 
 /* --------------------------------------------------------------------------
-   6. ACESSIBILIDADE: REDUÇÃO DE MOVIMENTO
+   7. ACESSIBILIDADE: REDUÇÃO DE MOVIMENTO
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -1,5 +1,5 @@
 /**
- * Bendito Burger — Módulo de Segurança Front-end (Hardening)
+ * NA BRASA BURGER — Módulo de Segurança Front-end (Hardening)
  * Funções puras para sanitização XSS, validações de inputs e integridade de links externos.
  */
 

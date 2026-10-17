@@ -1,5 +1,5 @@
 /**
- * Bendito Burger — Aplicação Principal (main.js)
+ * NA BRASA BURGER — Aplicação Principal (main.js)
  * Gerenciamento de estado, renderização reativa, carrinho e pedidos via WhatsApp.
  */
 
@@ -10,15 +10,17 @@
      1. CONFIGURAÇÕES & DADOS DO CARDÁPIO
      ========================================================================== */
   const CONFIG = {
-    nome: "Bendito Burger",
-    whatsapp: "5511999999999", // Número da hamburgueria (com DDI 55 + DDD)
-    endereco: "Rua Augusta, 1420 — Consolação, São Paulo/SP",
-    maps: "https://maps.google.com/?q=Rua+Augusta+1420+Consolacao+Sao+Paulo",
-    horario: { dias: [2, 3, 4, 5, 6, 0], abre: "18:00", fecha: "23:00" }, // 0=Dom ... 6=Sáb (segunda fecha)
+    nome: "NA BRASA BURGER",
+    whatsapp: "5561994024930", // Número da hamburgueria (com DDI 55 + DDD)
+    instagram: "https://www.instagram.com/nabrasaburgerss?cplk=MTNtbjlpdHU3YXI0dA==",
+    endereco: "Atendimento exclusivo via Delivery",
+    horario: { dias: [0, 1, 2, 3, 4, 5, 6], abre: "19:00", fecha: "23:00" }, // 0=Dom ... 6=Sáb (Seg a Dom - todos os dias)
     entrega: { taxa: 8, gratisAcima: 70 },
     combo: { preco: 12, label: "Combo (batata + refri)" },
     cupons: {
       "PRIMEIRA10": { tipo: "percent", valor: 10, label: "10% de desconto" },
+      "BRASA5": { tipo: "fixed", valor: 5, label: "R$ 5,00 de desconto" },
+      "NABRASA5": { tipo: "fixed", valor: 5, label: "R$ 5,00 de desconto" },
       "BENDITO5": { tipo: "fixed", valor: 5, label: "R$ 5,00 de desconto" }
     }
   };
@@ -27,7 +29,7 @@
     {
       cat: "Burgers",
       key: "burgers",
-      sub: "na chapa · vira combo se quiser",
+      sub: "na brasa · vira combo se quiser",
       burger: true,
       items: [
         { id: "classico", n: "Clássico", d: "blend bovino 160g, queijo, alface, tomate, cebola e molho da casa no pão brioche", p: 28, img: "burger-classico", carne: true },
@@ -108,8 +110,8 @@
      ========================================================================== */
   let cart = [];
   let order = {
-    tipo: "",
-    pag: "",
+    tipo: "entrega",
+    pag: "PIX",
     nome: "",
     tel: "",
     troco: "",
@@ -161,28 +163,48 @@
     if (!metaEl) return;
 
     metaEl.innerHTML = `
-      <span class="chip ${s.aberto ? "status-open" : "status-closed"}" role="status">
-        <span class="dot ${s.aberto ? "on" : "off"}" aria-hidden="true"></span>
-        ${s.aberto ? "Aberto agora" : "Fechado"}
-      </span>
-      <span class="chip">
-        <a href="${Security.escapeHTML(CONFIG.maps)}" target="_blank" rel="noopener noreferrer" aria-label="Ver localização no mapa">
-          📍 Como chegar
+      <div class="meta-row meta-info">
+        <span class="chip ${s.aberto ? "status-open" : "status-closed"}" role="status">
+          <span class="dot ${s.aberto ? "on" : "off"}" aria-hidden="true"></span>
+          <span>${s.aberto ? "Aberto agora" : "Fechado"}</span>
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24" width="13.5" height="13.5" fill="currentColor" aria-hidden="true"><path d="M19 7c0-1.1-.9-2-2-2h-3v2h3v2.65L13.52 14H10V9H6c-2.21 0-4 1.79-4 4v3h2c0 1.66 1.34 3 3 3s3-1.34 3-3h4c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-4-4zm-12 10c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm11 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+          <span>100% Delivery</span>
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24" width="13.5" height="13.5" fill="currentColor" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          <span>Seg a Dom · 19h–23h</span>
+        </span>
+      </div>
+      <div class="meta-row meta-actions">
+        <a class="chip chip-action" href="https://wa.me/${CONFIG.whatsapp}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp NA BRASA BURGER">
+          <svg viewBox="0 0 24 24" width="13.5" height="13.5" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>WhatsApp</span>
         </a>
-      </span>
-      <span class="chip">🕐 Ter a Dom · 18h–23h</span>
+        <a class="chip chip-action" href="${Security.escapeHTML(CONFIG.instagram)}" target="_blank" rel="noopener noreferrer" aria-label="Instagram NA BRASA BURGER">
+          <svg viewBox="0 0 24 24" width="13.5" height="13.5" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <span>Instagram</span>
+        </a>
+      </div>
     `;
 
     const footAddr = document.getElementById("footAddr");
     if (footAddr) {
-      footAddr.textContent = "📍 " + CONFIG.endereco;
+      footAddr.innerHTML = `
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M19 7c0-1.1-.9-2-2-2h-3v2h3v2.65L13.52 14H10V9H6c-2.21 0-4 1.79-4 4v3h2c0 1.66 1.34 3 3 3s3-1.34 3-3h4c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-4-4zm-12 10c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm11 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+        <span>${Security.escapeHTML(CONFIG.endereco)}</span>
+      `;
     }
 
     const cb = document.getElementById("closedBanner");
     if (cb) {
       if (!s.aberto) {
-        cb.style.display = "block";
-        cb.textContent = "🕐 Estamos fechados agora. Abrimos " + (s.proximo || "em breve") + ". Você pode montar o pedido e enviar assim que abrirmos.";
+        cb.style.display = "flex";
+        cb.innerHTML = `
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          <span>Estamos fechados agora. Abrimos ${Security.escapeHTML(s.proximo || "hoje às 19:00")}. Você pode montar o pedido e enviar assim que abrirmos.</span>
+        `;
       } else {
         cb.style.display = "none";
       }
@@ -244,12 +266,12 @@
 
   function createCardEl(it) {
     const el = document.createElement("article");
-    el.className = "card";
+    el.className = "card" + (it.img ? "" : " no-thumb");
     el.id = "card-" + it.id;
     el.setAttribute("role", "listitem");
 
     const thumb = it.img
-      ? `<img class="thumb" loading="lazy" src="img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(it.n)} — foto ilustrativa" width="104" height="104">`
+      ? `<img class="thumb" loading="lazy" src="img/${Security.escapeHTML(it.img)}.webp" alt="${Security.escapeHTML(it.n)} — foto ilustrativa" width="92" height="92">`
       : "";
 
     const preco = it.burger
@@ -257,14 +279,16 @@
       : brl(it.p);
 
     el.innerHTML = `
-      ${thumb}
-      <div class="txt">
+      <div class="card-left">
         <h3>${Security.escapeHTML(it.n)}</h3>
         <div class="desc">${Security.escapeHTML(it.d || "")}</div>
-        <div class="bot">
+        <div class="card-price-row">
           <span class="price">${preco}</span>
-          <span id="act-${it.id}"></span>
         </div>
+      </div>
+      <div class="card-right">
+        ${thumb}
+        <div class="card-act" id="act-${it.id}"></div>
       </div>
     `;
 
@@ -353,12 +377,16 @@
       ponto: "ponto",
       combo: false,
       adics: [],
+      leveJunto: [],
       qty: 1,
       obs: ""
     };
 
     const titleEl = document.getElementById("shTitle");
     if (titleEl) titleEl.textContent = it.n;
+
+    const clearBtn = document.getElementById("clearCartBtn");
+    if (clearBtn) clearBtn.style.display = "none";
 
     renderBurger();
     openSheet("burger");
@@ -371,10 +399,61 @@
     }, 0);
   }
 
+  function leveJuntoSum() {
+    return (modal.leveJunto || []).reduce(function (s, id) {
+      const found = ALL[id];
+      return s + (found ? found.p : 0);
+    }, 0);
+  }
+
   function burgerPreco() {
     if (!modal.item) return 0;
-    const base = modal.item.p + (modal.combo ? CONFIG.combo.preco : 0) + adicSum();
+    const base = modal.item.p + (modal.combo ? CONFIG.combo.preco : 0) + adicSum() + leveJuntoSum();
     return base * modal.qty;
+  }
+
+  function updateBurgerModalUI() {
+    // 1. Atualiza botões de adicionais
+    const adicBtns = document.querySelectorAll("#shBody [data-action='toggle-adic']");
+    adicBtns.forEach(function (btn) {
+      const id = btn.dataset.val;
+      const isSel = modal.adics.includes(id);
+      btn.classList.toggle("sel", isSel);
+      btn.setAttribute("aria-pressed", isSel ? "true" : "false");
+    });
+
+    // 2. Atualiza botões de Leve Junto
+    const ljBtns = document.querySelectorAll("#shBody [data-action='toggle-leve-junto']");
+    ljBtns.forEach(function (btn) {
+      const id = btn.dataset.id;
+      const isSel = Boolean(modal.leveJunto && modal.leveJunto.includes(id));
+      btn.classList.toggle("sel", isSel);
+      btn.setAttribute("aria-pressed", isSel ? "true" : "false");
+      const item = ALL[id];
+      if (item) {
+        btn.innerHTML = `${isSel ? "✓" : "+"} ${Security.escapeHTML(item.n)} <span class="chip-sep">•</span> <b>${brl(item.p)}</b>`;
+      }
+    });
+
+    // 3. Atualiza botões de Combo
+    const comboBtns = document.querySelectorAll("#shBody [data-action='set-combo']");
+    comboBtns.forEach(function (btn) {
+      const isTrue = btn.dataset.val === "true";
+      const isSel = modal.combo === isTrue;
+      btn.classList.toggle("sel", isSel);
+      btn.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+
+    // 4. Atualiza botões de Ponto
+    const pontoBtns = document.querySelectorAll("#shBody [data-action='set-ponto']");
+    pontoBtns.forEach(function (btn) {
+      const isSel = modal.ponto === btn.dataset.val;
+      btn.classList.toggle("sel", isSel);
+      btn.setAttribute("aria-checked", isSel ? "true" : "false");
+    });
+
+    // 5. Atualiza o rodapé com o preço total recalculado instantaneamente
+    renderBurgerFoot();
   }
 
   function toggleAdic(id) {
@@ -384,17 +463,28 @@
     } else {
       modal.adics.push(id);
     }
-    renderBurger();
+    updateBurgerModalUI();
+  }
+
+  function toggleLeveJunto(id) {
+    if (!modal.leveJunto) modal.leveJunto = [];
+    const i = modal.leveJunto.indexOf(id);
+    if (i >= 0) {
+      modal.leveJunto.splice(i, 1);
+    } else {
+      modal.leveJunto.push(id);
+    }
+    updateBurgerModalUI();
   }
 
   function setPonto(p) {
     modal.ponto = p;
-    renderBurger();
+    updateBurgerModalUI();
   }
 
   function setCombo(v) {
     modal.combo = Boolean(v);
-    renderBurger();
+    updateBurgerModalUI();
   }
 
   function renderBurger() {
@@ -522,6 +612,7 @@
 
     const pontoObj = PONTOS.find(function (p) { return p.id === modal.ponto; });
     const pontoNome = pontoObj ? pontoObj.n : "";
+    const precoBurgerUnit = it.p + (modal.combo ? CONFIG.combo.preco : 0) + adicSum();
 
     cart.push({
       lineId: "L" + Date.now() + Math.round(Math.random() * 999),
@@ -535,14 +626,35 @@
       combo: modal.combo,
       adics: modal.adics.slice(),
       adicsNome: adicsNome,
-      precoUnit: burgerPreco() / modal.qty,
+      precoUnit: precoBurgerUnit,
       qty: modal.qty,
       obs: Security.sanitizeText(modal.obs)
     });
 
+    if (modal.leveJunto && modal.leveJunto.length) {
+      modal.leveJunto.forEach(function (ljId) {
+        const itemLj = ALL[ljId];
+        if (itemLj) {
+          const existing = cart.find(function (l) { return !l.burger && l.id === ljId; });
+          if (existing) {
+            existing.qty += modal.qty;
+          } else {
+            cart.push({
+              lineId: "L" + Date.now() + Math.round(Math.random() * 999),
+              id: itemLj.id,
+              nome: itemLj.n,
+              precoUnit: itemLj.p,
+              burger: false,
+              qty: modal.qty
+            });
+          }
+        }
+      });
+    }
+
     closeAll();
     onCartChange();
-    toast("Burger adicionado ao pedido");
+    toast("Item adicionado ao pedido");
   }
 
   /* ==========================================================================
@@ -614,6 +726,9 @@
     document.body.style.overflow = "";
     document.body.classList.remove("modal-open");
     sheetMode = "";
+
+    const clearBtn = document.getElementById("clearCartBtn");
+    if (clearBtn) clearBtn.style.display = "none";
   }
 
   /* ==========================================================================
@@ -622,6 +737,14 @@
   function openCart() {
     renderCart();
     openSheet("cart");
+  }
+
+  function clearCart() {
+    cart = [];
+    order.cupom = "";
+    persistCart();
+    onCartChange();
+    toast("Carrinho esvaziado com sucesso");
   }
 
   function lineDesc(l) {
@@ -639,6 +762,11 @@
   function renderCart() {
     const titleEl = document.getElementById("shTitle");
     if (titleEl) titleEl.textContent = "Seu pedido";
+
+    const clearBtn = document.getElementById("clearCartBtn");
+    if (clearBtn) {
+      clearBtn.style.display = cart.length ? "inline-flex" : "none";
+    }
 
     const body = document.getElementById("shBody");
     const foot = document.getElementById("shFoot");
@@ -690,18 +818,19 @@
       ${suggestBlock()}
 
       <div class="field">
-        <label>Como você quer receber?</label>
-        <div class="opts2" role="radiogroup" aria-label="Tipo de entrega">
-          <button type="button" class="o2 ${order.tipo === "entrega" ? "sel" : ""}" data-action="set-tipo" data-val="entrega" role="radio" aria-checked="${order.tipo === "entrega"}">
-            🛵 Entrega <small>na sua casa</small>
-          </button>
-          <button type="button" class="o2 ${order.tipo === "retirada" ? "sel" : ""}" data-action="set-tipo" data-val="retirada" role="radio" aria-checked="${order.tipo === "retirada"}">
-            🏠 Retirada <small>no balcão</small>
-          </button>
+        <label>Forma de entrega</label>
+        <div class="delivery-notice-box" role="status">
+          <span class="delivery-badge-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M19 7c0-1.1-.9-2-2-2h-3v2h3v2.65L13.52 14H10V9H6c-2.21 0-4 1.79-4 4v3h2c0 1.66 1.34 3 3 3s3-1.34 3-3h4c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-4-4zm-12 10c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm11 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+          </span>
+          <div>
+            <strong>100% Delivery em Domicílio</strong>
+            <small>Preencha os dados abaixo para receber quentinho no seu endereço</small>
+          </div>
         </div>
       </div>
 
-      ${order.tipo === "entrega" ? enderecoFormHtml() : ""}
+      ${enderecoFormHtml()}
 
       <div class="field">
         <label for="fNome">Seu nome</label>
@@ -881,9 +1010,10 @@
       .map(function (id) { return ALL[id]; })
       .filter(Boolean)
       .map(function (x) {
+        const isSel = Boolean(modal.leveJunto && modal.leveJunto.includes(x.id));
         return `
-          <button type="button" class="sug-chip" data-action="add-simple-chip" data-id="${x.id}">
-            + ${Security.escapeHTML(x.n)} <span class="chip-sep">•</span> <b>${brl(x.p)}</b>
+          <button type="button" class="sug-chip ${isSel ? "sel" : ""}" data-action="toggle-leve-junto" data-id="${x.id}" aria-pressed="${isSel ? "true" : "false"}">
+            ${isSel ? "✓" : "+"} ${Security.escapeHTML(x.n)} <span class="chip-sep">•</span> <b>${brl(x.p)}</b>
           </button>
         `;
       }).join("");
@@ -999,10 +1129,7 @@
     const b = document.getElementById("sendBtn");
     if (!b) return;
 
-    let ok = Boolean(order.tipo) && Security.validateName(order.nome) && Security.validatePhone(order.tel);
-    if (order.tipo === "entrega") {
-      ok = ok && Security.validateAddress(order.end);
-    }
+    const ok = Security.validateName(order.nome) && Security.validatePhone(order.tel) && Security.validateAddress(order.end);
     b.disabled = !ok;
   }
 
@@ -1010,77 +1137,79 @@
      10. ENVIO DO PEDIDO PARA O WHATSAPP
      ========================================================================== */
   function enviarPedido() {
-    if (!order.tipo) {
-      toast("Escolha entrega ou retirada");
-      return;
-    }
     if (!Security.validateName(order.nome)) {
       toast("Digite seu nome completo");
+      const el = document.getElementById("fNome");
+      if (el) el.focus();
       return;
     }
     if (!Security.validatePhone(order.tel)) {
       toast("Digite seu WhatsApp com DDD");
+      const el = document.getElementById("fTel");
+      if (el) el.focus();
       return;
     }
-    if (order.tipo === "entrega" && !Security.validateAddress(order.end)) {
-      toast("Complete o endereço (rua, número e bairro)");
+    if (!Security.validateAddress(order.end)) {
+      toast("Preencha rua, número e bairro para entrega");
+      const el = document.getElementById("fEndRua");
+      if (el) el.focus();
       return;
     }
 
     const L = [];
-    L.push(`*PEDIDO — ${CONFIG.nome}*`);
+    L.push(`🍔 *NOVO PEDIDO DELIVERY — ${CONFIG.nome}*`);
+    L.push("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    L.push(`👤 *Cliente:* ${order.nome.trim()}`);
+    L.push(`📱 *WhatsApp:* ${order.tel.trim()}`);
     L.push("");
-    L.push(`*Cliente:* ${order.nome.trim()}`);
-    L.push(`*WhatsApp:* ${order.tel.trim()}`);
 
-    if (order.tipo === "entrega") {
-      const e = order.end;
-      L.push(`*Entrega:* ${e.rua}, ${e.num}${e.comp ? " - " + e.comp : ""} - ${e.bairro}`);
-      if (e.ref) L.push(`*Referência:* ${e.ref}`);
-    } else {
-      L.push(`*Retirada no balcão*`);
-    }
-
+    const e = order.end;
+    L.push(`📍 *ENDEREÇO DE ENTREGA:*`);
+    L.push(`• *Rua:* ${e.rua}, Nº ${e.num}`);
+    if (e.comp) L.push(`• *Complemento:* ${e.comp}`);
+    L.push(`• *Bairro:* ${e.bairro}`);
+    if (e.ref) L.push(`• *Ponto de Referência:* ${e.ref}`);
     L.push("");
-    L.push("*Itens do Pedido:*");
 
-    cart.forEach(function (l) {
+    L.push(`🛍️ *ITENS DO PEDIDO:*`);
+    cart.forEach(function (l, idx) {
       if (l.burger) {
         const nome = l.combo ? `${l.nome} — Combo (batata + refri)` : l.nome;
-        L.push(`• ${l.qty}x ${nome} — ${brl(l.precoUnit * l.qty)}`);
-        if (l.carne && l.pontoNome) L.push(`   Ponto: ${l.pontoNome}`);
-        if (l.adicsNome && l.adicsNome.length) L.push(`   Adicionais: ${l.adicsNome.join(", ")}`);
-        if (l.obs) L.push(`   _Obs: ${l.obs}_`);
+        L.push(`${idx + 1}. *${l.qty}x ${nome}* — ${brl(l.precoUnit * l.qty)}`);
+        if (l.carne && l.pontoNome) L.push(`   └ Ponto: ${l.pontoNome}`);
+        if (l.adicsNome && l.adicsNome.length) L.push(`   └ Adicionais: ${l.adicsNome.join(", ")}`);
+        if (l.obs) L.push(`   └ Obs: ${l.obs}`);
       } else {
-        L.push(`• ${l.qty}x ${l.nome} — ${brl(l.precoUnit * l.qty)}`);
-        if (l.obs) L.push(`   _Obs: ${l.obs}_`);
+        L.push(`${idx + 1}. *${l.qty}x ${l.nome}* — ${brl(l.precoUnit * l.qty)}`);
+        if (l.obs) L.push(`   └ Obs: ${l.obs}`);
       }
     });
-
     L.push("");
-    L.push(`*Subtotal:* ${brl(subtotal())}`);
 
+    L.push(`💰 *RESUMO DE VALORES:*`);
+    L.push(`• Subtotal: ${brl(subtotal())}`);
     if (descontoCupom() > 0) {
-      L.push(`*Cupom ${order.cupom}:* -${brl(descontoCupom())}`);
+      L.push(`• Desconto Cupom (${order.cupom}): -${brl(descontoCupom())}`);
     }
-
-    if (order.tipo === "entrega") {
-      L.push(`*Taxa de entrega:* ${taxaEntrega() === 0 ? "Grátis" : brl(taxaEntrega())}`);
+    L.push(`• Taxa de entrega: ${taxaEntrega() === 0 ? "GRÁTIS" : brl(taxaEntrega())}`);
+    if (order.gorjeta) {
+      L.push(`• Gorjeta do entregador: ${brl(order.gorjeta)}`);
     }
-
-    if (order.tipo === "entrega" && order.gorjeta) {
-      L.push(`*Gorjeta:* ${brl(order.gorjeta)}`);
-    }
-
-    L.push(`*TOTAL:* ${brl(total())}`);
-
-    if (order.pag) {
-      const trocoTxt = order.pag === "Dinheiro" && order.troco ? ` (troco p/ ${order.troco})` : "";
-      L.push(`*Pagamento:* ${order.pag}${trocoTxt}`);
-    }
-
+    L.push(`• *TOTAL DO PEDIDO: ${brl(total())}*`);
     L.push("");
-    L.push("_Pedido gerado pelo site oficial_");
+
+    let pagTexto = "PIX";
+    if (order.pag === "Cartão") {
+      pagTexto = "Cartão na Entrega (Maquininha Débito/Crédito)";
+    } else if (order.pag === "Dinheiro") {
+      pagTexto = order.troco ? `Dinheiro (Troco para ${order.troco})` : "Dinheiro (Não precisa de troco)";
+    } else {
+      pagTexto = "PIX (Aguardando envio de chave/QR Code)";
+    }
+    L.push(`💳 *FORMA DE PAGAMENTO:* ${pagTexto}`);
+    L.push("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    L.push(`_✅ Pedido enviado via cardápio online do ${CONFIG.nome} • 100% Delivery_`);
+    L.push(`_Por favor, confirme o tempo estimado para entrega!_`);
 
     try {
       localStorage.setItem("bb_last", JSON.stringify({ cart: cart, order: { ...order } }));
@@ -1119,9 +1248,12 @@
         if (d && d.cart && d.cart.length) {
           const btn = document.getElementById("repeatBtn");
           if (btn) {
-            btn.style.display = "block";
+            btn.style.display = "inline-flex";
             const resumo = d.cart.map(function (l) { return l.qty + "x " + l.nome; }).slice(0, 2).join(", ");
-            btn.innerHTML = `🔁 Repetir último pedido <b>· ${Security.escapeHTML(resumo)}${d.cart.length > 2 ? "…" : ""}</b>`;
+            btn.innerHTML = `
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+              <span>Repetir último pedido <b>· ${Security.escapeHTML(resumo)}${d.cart.length > 2 ? "…" : ""}</b></span>
+            `;
           }
         }
       }
@@ -1176,11 +1308,70 @@
     } catch (e) {}
   }
 
+  let isProgrammaticScroll = false;
+  let programmaticScrollTimer = null;
+
+  function scrollNavButton(btn) {
+    const navIn = document.getElementById("nav");
+    if (!navIn || !btn) return;
+
+    const navRect = navIn.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+
+    // Centraliza o botão dentro da barra horizontal sem mover a janela vertical
+    const currentScroll = navIn.scrollLeft;
+    const targetScroll = currentScroll + (btnRect.left - navRect.left) - (navRect.width / 2) + (btnRect.width / 2);
+
+    navIn.scrollTo({
+      left: Math.max(0, targetScroll),
+      behavior: "smooth"
+    });
+  }
+
+  function scrollToCategory(secId, btn) {
+    const sec = document.getElementById(secId);
+    if (!sec) return;
+
+    // Atualiza o estado ativo de todos os botões imediatamente
+    const allButtons = document.querySelectorAll(".nav .tab-btn");
+    allButtons.forEach(function (b) {
+      const isMatch = (b === btn) || (b.dataset.target === secId) || (b.dataset.cid === secId);
+      b.classList.toggle("active", isMatch);
+      b.setAttribute("aria-selected", isMatch ? "true" : "false");
+    });
+
+    if (btn) {
+      scrollNavButton(btn);
+    }
+
+    // Trava temporariamente o IntersectionObserver para evitar loops e salto de rolagem ("vai e volta")
+    isProgrammaticScroll = true;
+    clearTimeout(programmaticScrollTimer);
+
+    const navEl = document.querySelector(".nav");
+    const navHeight = navEl ? navEl.offsetHeight : 54;
+
+    // Cálculo milimétrico de offset compensando a barra de navegação sticky
+    const secRect = sec.getBoundingClientRect();
+    const targetY = window.pageYOffset + secRect.top - navHeight - 10;
+
+    window.scrollTo({
+      top: Math.max(0, targetY),
+      behavior: "smooth"
+    });
+
+    programmaticScrollTimer = setTimeout(function () {
+      isProgrammaticScroll = false;
+    }, 800);
+  }
+
   function initScrollSpy() {
     const buttons = Array.from(document.querySelectorAll(".nav .tab-btn, .nav a"));
     if (!buttons.length || !("IntersectionObserver" in window)) return;
 
     const io = new IntersectionObserver(function (entries) {
+      if (isProgrammaticScroll) return; // Não interfere durante a rolagem de um clique
+
       entries.forEach(function (e) {
         if (e.isIntersecting) {
           buttons.forEach(function (b) {
@@ -1192,11 +1383,11 @@
             return (b.dataset.target === e.target.id) || (b.dataset.cid === e.target.id);
           });
           if (activeBtn) {
-            activeBtn.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+            scrollNavButton(activeBtn);
           }
         }
       });
-    }, { rootMargin: "-45% 0px -50% 0px" });
+    }, { rootMargin: "-30% 0px -60% 0px" });
 
     document.querySelectorAll(".sec").forEach(function (s) {
       io.observe(s);
@@ -1298,6 +1489,17 @@
       });
     }
 
+    // Prevenção de salto de hash nativo (#) ou comportamento padrão na barra de categorias
+    const navEl = document.getElementById("nav");
+    if (navEl) {
+      navEl.addEventListener("click", function (e) {
+        const btn = e.target.closest("button, a");
+        if (btn) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+    }
+
     // Delegação de cliques no documento
     document.addEventListener("click", function (e) {
       const target = e.target.closest("[data-action]");
@@ -1310,15 +1512,10 @@
       switch (action) {
         case "filter-cat": {
           e.preventDefault();
+          e.stopPropagation();
           const targetId = target.dataset.target || target.dataset.cid;
-          const sec = document.getElementById(targetId);
-          if (sec) {
-            sec.scrollIntoView({ behavior: "smooth", block: "start" });
-            document.querySelectorAll(".nav .tab-btn").forEach(function (b) {
-              const isMatch = b === target;
-              b.classList.toggle("active", isMatch);
-              b.setAttribute("aria-selected", isMatch ? "true" : "false");
-            });
+          if (targetId) {
+            scrollToCategory(targetId, target);
           }
           break;
         }
@@ -1343,6 +1540,17 @@
           break;
         case "toggle-adic":
           toggleAdic(val);
+          break;
+        case "toggle-leve-junto":
+          e.stopPropagation();
+          toggleLeveJunto(id);
+          break;
+        case "clear-cart":
+          e.preventDefault();
+          if (!cart.length) return;
+          if (confirm("Deseja remover todos os itens do carrinho?")) {
+            clearCart();
+          }
           break;
         case "burger-dec-qty":
           modal.qty = Math.max(1, modal.qty - 1);
@@ -1392,6 +1600,21 @@
   /* ==========================================================================
      16. INICIALIZAÇÃO
      ========================================================================== */
+  function initFAQ() {
+    const faqItems = document.querySelectorAll(".faq-item");
+    faqItems.forEach(function (item) {
+      item.addEventListener("toggle", function () {
+        if (item.open) {
+          faqItems.forEach(function (other) {
+            if (other !== item && other.open) {
+              other.open = false;
+            }
+          });
+        }
+      });
+    });
+  }
+
   function init() {
     renderMeta();
     renderMenu();
@@ -1399,6 +1622,7 @@
     initScrollSpy();
     initRepeat();
     initDeepLink();
+    initFAQ();
     setInterval(renderMeta, 60000);
     Security.enforceExternalLinks(document.body);
   }

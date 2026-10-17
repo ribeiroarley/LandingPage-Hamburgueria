@@ -1,7 +1,7 @@
 {
-  "name": "Bendito Burger",
-  "short_name": "Bendito Burger",
-  "description": "Hamburgueria artesanal na chapa. Monte o seu burger e peça pela internet.",
+  "name": "NA BRASA BURGER",
+  "short_name": "NA BRASA",
+  "description": "Hamburgueria artesanal NA BRASA BURGER. Monte o seu burger artesanal e peça pela internet.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,5 +1,5 @@
-// Service worker — Bendito Burger PWA Cache Shell
-const CACHE = "bendito-burger-v4";
+// Service worker — BRASA BURGER PWA Cache Shell
+const CACHE = "brasa-burger-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -9,12 +9,13 @@ const ASSETS = [
   "./css/responsive.css",
   "./js/security.js",
   "./js/main.js",
+  "./img/nabrasa_logo.jpeg",
+  "./img/hero-brasa.webp",
   "./img/icons/icon-192.png",
   "./img/icons/icon-512.png",
   "./img/icons/favicon-32.png",
   "./img/icons/favicon-64.png",
   "./img/icons/apple-touch-icon.png",
-  "./img/hero-chapa.webp",
   "./img/burger-classico.webp",
   "./img/burger-cheddar-bacon.webp",
   "./img/burger-duplo-smash.webp",

@@ -54,8 +54,12 @@ async function build() {
       .replace(/"\.\/js\/main\.js",/g, '"./js/app.bundle.js",');
 
     fs.writeFileSync(path.join(DIST_DIR, 'sw.js'), swContent, 'utf8');
-    console.log('   ✔ sw.js ajustado e copiado para dist/sw.js\n');
+    console.log('   ✔ sw.js ajustado e copiado para dist/sw.js');
   }
+
+  // Criar .nojekyll para o GitHub Pages ignorar o processador Jekyll
+  fs.writeFileSync(path.join(DIST_DIR, '.nojekyll'), '', 'utf8');
+  console.log('   ✔ .nojekyll gerado em dist/.nojekyll\n');
 
   // 3. CSS Bundling & Minification
   console.log('🎨 3. Agrupando e minificando CSS...');

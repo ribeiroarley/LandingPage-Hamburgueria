@@ -1,4 +1,4 @@
-# 🍔 Bendito Burger — Landing Page & Web App Delivery
+# 🔥 NA BRASA BURGER — Landing Page & Web App Delivery
 
 Aplicação web estática, ultrarrápida e responsiva voltada para delivery gastronômico artesanal. Desenvolvida sob padrão de usabilidade mobile-first inspirado nas melhores experiências de delivery (iFood e 99 Food), com carrinho interativo, cálculo de cupons em tempo real e fechamento de pedidos direto no WhatsApp.
 
@@ -86,7 +86,8 @@ LandingPage-Hamburgueria/
 ## ⚙️ Customização Rápida
 
 Para alterar os dados do estabelecimento, edite o objeto `CONFIG` no início de [`js/main.js`](file:///C:/Users/arsx_/Documents/LandingPage-Hamburgueria/js/main.js):
-- **WhatsApp:** Substitua pelo número oficial com DDI e DDD (ex: `"5511999999999"`).
+- **WhatsApp:** `"5561994024930"`.
+- **Instagram:** `"https://www.instagram.com/nabrasaburgerss?cplk=MTNtbjlpdHU3YXI0dA=="`.
 - **Nome & Endereço:** Modifique os dados de exibição física e links do Google Maps.
 - **Cupons de Desconto:** Cadastre novos cupons no formato fixo (`fixed`) ou percentual (`percent`).
 - **Cardápio:** Atualize itens, descrições, preços e adicionais diretamente no array `MENU`.
@@ -94,4 +95,4 @@ Para alterar os dados do estabelecimento, edite o objeto `CONFIG` no início de 
 ---
 
 ## 📄 Licença
-Site oficial desenvolvido para **Bendito Burger**. Todos os direitos reservados.
+Site oficial desenvolvido para **NA BRASA BURGER**. Todos os direitos reservados.

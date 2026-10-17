@@ -1,6 +1,6 @@
-# Catálogo de Recursos Visuais e Imagens — Bendito Burger
+# Catálogo de Recursos Visuais e Imagens — BRASA BURGER
 
-Este documento cataloga todos os ativos visuais, fotografias de produtos, imagens promocionais e ícones da aplicação **Bendito Burger**, detalhando especificações técnicas, padrões de acessibilidade (textos alternativos / `alt`), dimensões e regras de otimização contínua.
+Este documento cataloga todos os ativos visuais, fotografias de produtos, imagens promocionais e ícones da aplicação **BRASA BURGER**, detalhando especificações técnicas, padrões de acessibilidade (textos alternativos / `alt`), dimensões e regras de otimização contínua.
 
 ---
 
@@ -12,7 +12,7 @@ Este documento cataloga todos os ativos visuais, fotografias de produtos, imagen
 - **Atributos de Performance e Responsividade:**
   - Todas as tags `<img>` devem declarar explicitamente `width` e `height` para prevenir *Cumulative Layout Shift* (CLS).
   - Imagens *below-the-fold* devem utilizar `loading="lazy"`.
-  - O banner de destaque (`hero-chapa.webp`) deve conter `fetchpriority="high"` e `aria-hidden="true"` quando puramente decorativo com sobreposição tipográfica.
+  - O banner de destaque (`hero-brasa.webp`) deve conter `fetchpriority="high"` e `aria-hidden="true"` quando puramente decorativo com sobreposição tipográfica.
 
 ---
 
@@ -20,7 +20,7 @@ Este documento cataloga todos os ativos visuais, fotografias de produtos, imagen
 
 | Arquivo | Descrição Visual | Finalidade / Uso | Dimensões Recomendadas | Alt Text Semântico Padrão |
 | :--- | :--- | :--- | :--- | :--- |
-| `hero-chapa.webp` | Burgers e smash sendo selados na chapa de ferro quente com fumaça e faíscas artesanais | Fundo panorâmico do cabeçalho (*Hero Section*) | 1920 × 600 px | Decorativo (`aria-hidden="true"`, `alt=""`) |
+| `hero-brasa.webp` | Textura premium de pedra ardósia escura, grelha de ferro fundido, brasas e faíscas sutis | Fundo panorâmico do cabeçalho (*Hero Section*) | 1920 × 1080 px | "Fundo BRASA BURGER textura na brasa e pedra ardósia" |
 | `burger-classico.webp` | Burger artesanal com blend 160g, queijo prato, alface crespa, tomate, cebola e molho da casa | Cardápio: Burger Clássico e Salada | 800 × 800 px (Render: 104x104 / 400x200) | "Hambúrguer artesanal clássico com blend 160g, queijo, salada fresca no pão brioche" |
 | `burger-cheddar-bacon.webp` | Blend bovino alto coberto por cascata de cheddar derretido e fatias douradas de bacon crocante | Cardápio: Cheddar Bacon | 800 × 800 px (Render: 104x104 / 400x200) | "Hambúrguer com blend bovino, queijo cheddar derretido e tiras crocantes de bacon" |
 | `burger-duplo-smash.webp` | Dois discos finos smash prensados com bordas tostadas, queijo derretido duplo e picles | Cardápio: Duplo Smash | 800 × 800 px (Render: 104x104 / 400x200) | "Duplo Smash burger com discos prensados, crosta crocante, queijo duplo e picles" |
