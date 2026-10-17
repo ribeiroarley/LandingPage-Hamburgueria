@@ -1,5 +1,5 @@
 // Service worker — BRASA BURGER PWA Cache Shell
-const CACHE = "brasa-burger-v4";
+const CACHE = "brasa-burger-v5";
 const ASSETS = [
   "./",
   "./index.html",
@@ -26,13 +26,11 @@ const ASSETS = [
 ];
 
 self.addEventListener("install", function (e) {
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE)
       .then(function (c) {
         return c.addAll(ASSETS);
-      })
-      .then(function () {
-        return self.skipWaiting();
       })
   );
 });
@@ -56,6 +54,31 @@ self.addEventListener("activate", function (e) {
 self.addEventListener("fetch", function (e) {
   const req = e.request;
   if (req.method !== "GET") return;
+
+  const url = req.url || "";
+  const isCodeAsset = req.mode === "navigate" || /\.(html|css|js)(\?|$)/i.test(url);
+
+  if (isCodeAsset) {
+    // Network-first para HTML, CSS e JS (garante atualização imediata em novos deploys)
+    e.respondWith(
+      fetch(req)
+        .then(function (res) {
+          if (res && res.status === 200 && res.type === "basic") {
+            const copy = res.clone();
+            caches.open(CACHE).then(function (c) {
+              c.put(req, copy).catch(function () {});
+            });
+          }
+          return res;
+        })
+        .catch(function () {
+          return caches.match(req).then(function (hit) {
+            return hit || caches.match("./index.html");
+          });
+        })
+    );
+    return;
+  }
 
   e.respondWith(
     caches.match(req).then(function (hit) {
