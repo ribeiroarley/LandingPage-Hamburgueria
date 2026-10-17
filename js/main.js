@@ -570,11 +570,16 @@
       obsHtml +
       leveJuntoHtml;
 
-    // Listener para o input de observação
+    // Listener para o input de observação com scroll suave no mobile
     const obsInput = document.getElementById("bgObs");
     if (obsInput) {
       obsInput.addEventListener("input", function (e) {
-        modal.obs = Security.sanitizeText(e.target.value);
+        modal.obs = e.target.value;
+      });
+      obsInput.addEventListener("focus", function () {
+        setTimeout(function () {
+          obsInput.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 300);
       });
     }
 
@@ -1053,6 +1058,18 @@
         order.end.ref = e.target.value;
       });
     }
+
+    // Scroll suave ao focar em qualquer campo do checkout no mobile
+    const allCheckoutInputs = [fNome, fTel, fTroco, fRua, fNum, fBairro, fComp, fRef, document.getElementById("fCupom")];
+    allCheckoutInputs.forEach(function (inp) {
+      if (inp) {
+        inp.addEventListener("focus", function () {
+          setTimeout(function () {
+            inp.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 300);
+        });
+      }
+    });
   }
 
   function leveJuntoChips() {
