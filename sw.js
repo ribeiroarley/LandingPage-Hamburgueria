@@ -30,7 +30,17 @@ self.addEventListener("install", function (e) {
   e.waitUntil(
     caches.open(CACHE)
       .then(function (c) {
-        return c.addAll(ASSETS);
+        return Promise.all(
+          ASSETS.map(function (url) {
+            return fetch(url, { cache: "reload" })
+              .then(function (res) {
+                if (res && res.status === 200) {
+                  return c.put(url, res);
+                }
+              })
+              .catch(function () {});
+          })
+        );
       })
   );
 });
@@ -59,9 +69,9 @@ self.addEventListener("fetch", function (e) {
   const isCodeAsset = req.mode === "navigate" || /\.(html|css|js)(\?|$)/i.test(url);
 
   if (isCodeAsset) {
-    // Network-first para HTML, CSS e JS (garante atualização imediata em novos deploys)
+    // Network-first com cache: no-store para HTML, CSS e JS (garante atualização imediata nos celulares)
     e.respondWith(
-      fetch(req)
+      fetch(req, { cache: "no-store" })
         .then(function (res) {
           if (res && res.status === 200 && res.type === "basic") {
             const copy = res.clone();
@@ -72,7 +82,7 @@ self.addEventListener("fetch", function (e) {
           return res;
         })
         .catch(function () {
-          return caches.match(req).then(function (hit) {
+          return caches.match(req, { ignoreSearch: true }).then(function (hit) {
             return hit || caches.match("./index.html");
           });
         })
