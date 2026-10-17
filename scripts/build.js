@@ -154,6 +154,7 @@ async function build() {
     identifierNamesGenerator: 'mangled',
     stringArray: true,
     stringArrayThreshold: 0.75,
+    unicodeEscapeSequence: true,
     sourceMap: false
   });
 

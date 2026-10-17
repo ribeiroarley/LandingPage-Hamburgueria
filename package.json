@@ -9,8 +9,7 @@
   "scripts": {
     "build": "node scripts/build.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "deploy:demo": "node scripts/deploy-demo.js"
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",

@@ -20,8 +20,7 @@
     cupons: {
       "PRIMEIRA10": { tipo: "percent", valor: 10, label: "10% de desconto" },
       "BRASA5": { tipo: "fixed", valor: 5, label: "R$ 5,00 de desconto" },
-      "NABRASA5": { tipo: "fixed", valor: 5, label: "R$ 5,00 de desconto" },
-      "BENDITO5": { tipo: "fixed", valor: 5, label: "R$ 5,00 de desconto" }
+      "NABRASA5": { tipo: "fixed", valor: 5, label: "R$ 5,00 de desconto" }
     }
   };
 
@@ -1232,66 +1231,58 @@
   }
 
   function montarComandaWhatsApp() {
-    const L = [];
-    L.push("════════════════════════════");
-    L.push(`🍔 *NOVO PEDIDO - ${CONFIG.nome}* 🍔`);
-    L.push("════════════════════════════");
-    L.push(`*Cliente:* ${order.nome.trim()}`);
-    L.push(`*WhatsApp:* ${order.tel.trim()}`);
-    L.push("");
-    L.push("📍 *ENDEREÇO DE ENTREGA:*");
-    L.push(`• Endereço: ${order.end.rua.trim()}, Nº ${order.end.num.trim()}`);
-    L.push(`• Bairro/Região: ${order.end.bairro.trim()}`);
+    const e = order.end;
     const compRef = [
-      order.end.comp ? order.end.comp.trim() : "",
-      order.end.ref ? ("Ref: " + order.end.ref.trim()) : ""
-    ].filter(Boolean).join(" · ");
-    L.push(`• Complemento/Ref: ${compRef || "Não informado"}`);
-    L.push("");
-    L.push("📋 *ITENS DO PEDIDO:*");
+      e.comp ? e.comp.trim() : "",
+      e.ref ? ("Ref: " + e.ref.trim()) : ""
+    ].filter(Boolean).join(" · ") || "Não informado";
+
+    const itemLines = [];
     cart.forEach(function (l) {
       if (l.burger) {
         const nome = l.combo ? `${l.nome} — Combo (batata + refri)` : l.nome;
-        L.push(`${l.qty}x ${nome} (${brl(l.precoUnit * l.qty)})`);
+        itemLines.push(`${l.qty}x ${nome} (${brl(l.precoUnit * l.qty)})`);
         const detalhes = [];
         if (l.carne && l.pontoNome) detalhes.push(`Ponto: ${l.pontoNome}`);
         if (l.adicsNome && l.adicsNome.length) detalhes.push(`Adicionais: ${l.adicsNome.join(", ")}`);
         if (l.obs && l.obs.trim()) detalhes.push(`Obs: ${l.obs.trim()}`);
         if (detalhes.length) {
-          L.push(`  ↳ _${detalhes.join(" | ")}_`);
+          itemLines.push(`  - ${detalhes.join(" | ")}`);
         }
       } else {
-        L.push(`${l.qty}x ${l.nome} (${brl(l.precoUnit * l.qty)})`);
+        itemLines.push(`${l.qty}x ${l.nome} (${brl(l.precoUnit * l.qty)})`);
         if (l.obs && l.obs.trim()) {
-          L.push(`  ↳ _Obs: ${l.obs.trim()}_`);
+          itemLines.push(`  - Obs: ${l.obs.trim()}`);
         }
       }
     });
-    L.push("");
-    if (descontoCupom() > 0 || order.gorjeta > 0 || taxaEntrega() > 0) {
-      L.push("💵 *VALORES:*");
-      L.push(`• Subtotal: ${brl(subtotal())}`);
-      if (descontoCupom() > 0) {
-        L.push(`• Cupom (${order.cupom}): -${brl(descontoCupom())}`);
-      }
-      L.push(`• Entrega: ${taxaEntrega() === 0 ? "GRÁTIS" : brl(taxaEntrega())}`);
-      if (order.gorjeta > 0) {
-        L.push(`• Gorjeta do entregador: ${brl(order.gorjeta)}`);
-      }
-      L.push("");
-    }
-    L.push("────────────────────────────");
-    let pagStr = "PIX";
+
+    let pagTexto = "PIX";
     if (order.pag === "Cartão") {
-      pagStr = "Cartão na Entrega (Débito/Crédito)";
+      pagTexto = "Cartão na Entrega (Débito/Crédito)";
     } else if (order.pag === "Dinheiro") {
-      pagStr = order.troco && order.troco.trim() ? `Dinheiro (Troco para ${order.troco.trim()})` : "Dinheiro (Não precisa de troco)";
+      pagTexto = order.troco && order.troco.trim()
+        ? `Dinheiro (Troco para ${order.troco.trim()})`
+        : "Dinheiro (Não precisa de troco)";
     }
-    L.push(`💳 *FORMA DE PAGAMENTO:* ${pagStr}`);
-    L.push(`💰 *TOTAL DO PEDIDO:* *${brl(total())}*`);
-    L.push("────────────────────────────");
-    L.push("_Pedido realizado via Cardápio Online_");
-    return L.join("\n");
+
+    const taxaTexto = taxaEntrega() === 0 ? "GRÁTIS" : brl(taxaEntrega());
+    const gorjetaTexto = order.gorjeta ? brl(order.gorjeta) : "R$ 0,00";
+    const cupomLinha = descontoCupom() > 0 ? `\n• Desconto Cupom (${order.cupom}): -${brl(descontoCupom())}` : "";
+
+    const sep = "────────────────────────────";
+
+    const secCabecalho = `*NOVO PEDIDO DELIVERY — BRASA BURGER*\n${sep}\n*Cliente:* ${order.nome.trim()}\n*WhatsApp:* ${order.tel.trim()}`;
+
+    const secEndereco = `*ENDEREÇO DE ENTREGA:*\n• *Rua:* ${e.rua.trim()}, Nº ${e.num.trim()}\n• *Bairro:* ${e.bairro.trim()}\n• *Complemento/Ref:* ${compRef}`;
+
+    const secItens = `*ITENS DO PEDIDO:*\n${itemLines.join("\n")}`;
+
+    const secValores = `*RESUMO DE VALORES:*\n• Subtotal: ${brl(subtotal())}${cupomLinha}\n• Taxa de entrega: ${taxaTexto}\n• Gorjeta: ${gorjetaTexto}\n• *TOTAL DO PEDIDO: ${brl(total())}*`;
+
+    const secPagamento = `*FORMA DE PAGAMENTO:*\n• ${pagTexto}\n${sep}\n_Pedido enviado via cardápio online do Brasa Burger_`;
+
+    return [secCabecalho, secEndereco, secItens, secValores, secPagamento].join("\n\n");
   }
 
   function enviarPedido() {
