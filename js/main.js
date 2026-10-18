@@ -741,9 +741,17 @@
   function clearCart() {
     cart = [];
     order.cupom = "";
-    persistCart();
+    order.gorjeta = 0;
+    try {
+      localStorage.setItem("bb_cart", "[]");
+    } catch (e) {}
     onCartChange();
-    toast("Carrinho esvaziado com sucesso");
+    renderCart();
+    const body = document.getElementById("shBody");
+    if (body) {
+      body.scrollTop = 0;
+    }
+    toast("Sacola esvaziada");
   }
 
   function lineDesc(l) {
@@ -775,10 +783,11 @@
       body.innerHTML = `
         <div class="empty">
           <div class="em" aria-hidden="true">🍔</div>
-          Seu pedido está vazio.<br>Escolha suas delícias no cardápio acima.
+          A sua sacola está vazia.<br>Escolha suas delícias no cardápio acima.
         </div>
       `;
       foot.innerHTML = "";
+      body.scrollTop = 0;
       return;
     }
 
@@ -1326,7 +1335,12 @@
 
     const textoComanda = montarComandaWhatsApp();
     const whatsappUrl = `https://wa.me/${CONFIG.whatsapp}?text=` + encodeURIComponent(textoComanda);
-    Security.safeOpenUrl(whatsappUrl);
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      window.location.href = whatsappUrl;
+    } else {
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    }
   }
 
   /* ==========================================================================
@@ -1575,7 +1589,7 @@
         window.location.reload();
       });
 
-      navigator.serviceWorker.register("./sw.js?v=5", { updateViaCache: "none" })
+      navigator.serviceWorker.register("./sw.js?v=6", { updateViaCache: "none" })
         .then(function (reg) {
           reg.update().catch(function () {});
         })
@@ -1619,6 +1633,16 @@
     const shClose = document.getElementById("shCloseBtn");
     if (shClose) {
       shClose.addEventListener("click", closeAll);
+    }
+
+    // Botão Esvaziar carrinho com ação instantânea
+    const clearCartBtn = document.getElementById("clearCartBtn");
+    if (clearCartBtn) {
+      clearCartBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        clearCart();
+      });
     }
 
     // Botão de repetir pedido no hero
@@ -1698,11 +1722,10 @@
           toggleLeveJunto(id);
           break;
         case "clear-cart":
+        case "esvaziar":
           e.preventDefault();
-          if (!cart.length) return;
-          if (confirm("Deseja remover todos os itens do carrinho?")) {
-            clearCart();
-          }
+          e.stopPropagation();
+          clearCart();
           break;
         case "burger-dec-qty":
           modal.qty = Math.max(1, modal.qty - 1);

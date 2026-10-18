@@ -94,6 +94,11 @@
       return false;
     }
 
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      window.location.href = sanitized;
+      return true;
+    }
+
     const newWin = window.open(sanitized, "_blank", "noopener,noreferrer");
     if (newWin) {
       newWin.opener = null;

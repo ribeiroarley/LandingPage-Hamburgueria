@@ -166,27 +166,27 @@ async function build() {
   console.log('📄 5. Reescrevendo importações e minificando index.html...');
   let htmlContent = fs.readFileSync(path.join(ROOT_DIR, 'index.html'), 'utf8');
 
-  // Substituir os 3 links de CSS por dist/css/app.min.css?v=5
-  const cssRegex = /<!--\s*CSS Modularizado[^>]*-->\s*<link rel="stylesheet" href="css\/style\.css">\s*<link rel="stylesheet" href="css\/components\.css">\s*<link rel="stylesheet" href="css\/responsive\.css">/i;
+  // Substituir os 3 links de CSS por dist/css/app.min.css?v=6
+  const cssRegex = /<!--\s*CSS Modularizado[^>]*-->\s*<link rel="stylesheet" href="css\/style\.css(?:\?v=\d+)?">\s*<link rel="stylesheet" href="css\/components\.css(?:\?v=\d+)?">\s*<link rel="stylesheet" href="css\/responsive\.css(?:\?v=\d+)?">/i;
   if (cssRegex.test(htmlContent)) {
-    htmlContent = htmlContent.replace(cssRegex, '<link rel="stylesheet" href="css/app.min.css?v=5">');
+    htmlContent = htmlContent.replace(cssRegex, '<link rel="stylesheet" href="css/app.min.css?v=6">');
   } else {
     // Fallback genérico para os links de CSS caso os comentários variem
     htmlContent = htmlContent
-      .replace(/<link rel="stylesheet" href="css\/style\.css">/g, '<link rel="stylesheet" href="css/app.min.css?v=5">')
-      .replace(/<link rel="stylesheet" href="css\/components\.css">\s*/g, '')
-      .replace(/<link rel="stylesheet" href="css\/responsive\.css">\s*/g, '');
+      .replace(/<link rel="stylesheet" href="css\/style\.css(?:\?v=\d+)?">/g, '<link rel="stylesheet" href="css/app.min.css?v=6">')
+      .replace(/<link rel="stylesheet" href="css\/components\.css(?:\?v=\d+)?">\s*/g, '')
+      .replace(/<link rel="stylesheet" href="css\/responsive\.css(?:\?v=\d+)?">\s*/g, '');
   }
 
-  // Substituir os 2 scripts por dist/js/app.bundle.js?v=5 (com defer)
-  const jsRegex = /<!--\s*Scripts com carregamento[^>]*-->\s*<script defer src="js\/security\.js"><\/script>\s*<script defer src="js\/main\.js"><\/script>/i;
+  // Substituir os 2 scripts por dist/js/app.bundle.js?v=6 (com defer)
+  const jsRegex = /<!--\s*Scripts com carregamento[^>]*-->\s*<script defer src="js\/security\.js(?:\?v=\d+)?"><\/script>\s*<script defer src="js\/main\.js(?:\?v=\d+)?"><\/script>/i;
   if (jsRegex.test(htmlContent)) {
-    htmlContent = htmlContent.replace(jsRegex, '<script defer src="js/app.bundle.js?v=5"></script>');
+    htmlContent = htmlContent.replace(jsRegex, '<script defer src="js/app.bundle.js?v=6"></script>');
   } else {
     // Fallback genérico para scripts
     htmlContent = htmlContent
-      .replace(/<script defer src="js\/security\.js"><\/script>/g, '<script defer src="js/app.bundle.js?v=5"></script>')
-      .replace(/<script defer src="js\/main\.js"><\/script>\s*/g, '');
+      .replace(/<script defer src="js\/security\.js(?:\?v=\d+)?"><\/script>/g, '<script defer src="js/app.bundle.js?v=6"></script>')
+      .replace(/<script defer src="js\/main\.js(?:\?v=\d+)?"><\/script>\s*/g, '');
   }
 
   // Minificar HTML com html-minifier-terser
