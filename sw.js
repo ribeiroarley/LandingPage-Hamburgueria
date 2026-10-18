@@ -1,5 +1,5 @@
 // Service worker — BRASA BURGER PWA Cache Shell
-const CACHE = "brasa-burger-v5";
+const CACHE = "brasa-burger-v6";
 const ASSETS = [
   "./",
   "./index.html",
