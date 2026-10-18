@@ -372,27 +372,35 @@
     padding: 6px 14px calc(6px + env(safe-area-inset-bottom, 0px));
   }
 
+  .btn-checkout-final,
   .send.send-unified {
-    height: 48px;
-    min-height: 48px;
-    max-height: 52px;
+    height: 50px;
+    min-height: 50px;
+    max-height: 54px;
     padding: 0 16px;
     border-radius: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
+  .btn-checkout-final .send-lbl,
   .send-unified .send-lbl {
-    font-size: 14.5px;
-    gap: 7px;
+    font-size: 13.5px;
+    gap: 6px;
   }
 
+  .btn-checkout-final .send-lbl svg,
   .send-unified .send-lbl svg {
-    width: 18px;
-    height: 18px;
+    width: 17px;
+    height: 17px;
   }
 
+  .btn-checkout-final strong,
+  .btn-checkout-final .send-price,
   .send-unified .send-price {
-    font-size: 19px;
-    padding: 3px 10px;
+    font-size: 18.5px;
+    padding: 3px 9px;
   }
 
   /* Compactação dos campos de formulário no mobile */
