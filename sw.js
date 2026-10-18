@@ -58,6 +58,16 @@ self.addEventListener("activate", function (e) {
       .then(function () {
         return self.clients.claim();
       })
+      .then(function () {
+        return self.clients.matchAll({ type: "window" });
+      })
+      .then(function (windowClients) {
+        windowClients.forEach(function (client) {
+          if ("navigate" in client) {
+            client.navigate(client.url).catch(function () {});
+          }
+        });
+      })
   );
 });
 
